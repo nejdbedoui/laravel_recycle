@@ -1,10 +1,10 @@
 {
     "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "vite",
-        "serve": "php artisan serve",
-        "start": "concurrently \"npm run serve\" \"npm run dev\""
+   "scripts": {
+    "dev": "npm run development",
+    "development": "vite",
+    "serve": "php artisan serve",
+    "start": "concurrently \"npm run serve\" \"npm run dev\""
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
