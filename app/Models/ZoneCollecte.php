@@ -9,6 +9,8 @@ class ZoneCollecte extends Model
 {
     use HasFactory;
 
+    protected $table = 'zone_collectes';
+
     protected $fillable = ['nom', 'adresse'];
 
     // Relation Many-to-Many avec Chauffeur

@@ -9,6 +9,8 @@ class EvenementCommunautaire extends Model
 {
     use HasFactory;
 
+    protected $table = 'evenements_communautaires';
+
     protected $fillable = ['nom', 'description', 'date', 'image'];
 
     // Relation One-to-Many avec Commentaire

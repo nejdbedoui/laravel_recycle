@@ -11,6 +11,8 @@ class MatierePremiere extends Model
 
     protected $fillable = ['nom', 'quantite'];
 
+    protected $table = 'matiere_premieres';
+
     // Relation Many-to-One avec CentreRecyclage
     public function centreRecyclage()
     {

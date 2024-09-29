@@ -9,7 +9,9 @@ class DemandeDechet extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date', 'etat', 'quantite'];
+    protected $fillable = ['etat', 'quantite'];
+
+    protected $table = 'demandes_dechets';
 
     // Relation Many-to-One avec CentreRecyclage
     public function centreRecyclage()

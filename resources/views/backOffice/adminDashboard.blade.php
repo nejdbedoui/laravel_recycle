@@ -46,6 +46,9 @@
                         </li>
 
                         <!-- Menu item -->
+                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/listEvenementCommunautaire')}}">Community Events List</a></li>
+
+                        <!-- Menu item -->
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="collapse" href="#collapseguest" role="button"
                                aria-expanded="false" aria-controls="collapseguest">
@@ -75,8 +78,7 @@
                             </ul>
                         </li>
 
-                        <!-- Menu item -->
-                        <li class="nav-item"><a class="nav-link" href="admin-reviews.html">Reviews</a></li>
+
 
                         <!-- Menu item -->
                         <li class="nav-item"><a class="nav-link" href="admin-earnings.html">Earnings</a></li>

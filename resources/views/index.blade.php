@@ -81,6 +81,8 @@
 	'resources/assets/vendor/aos/aos.css',
 	'resources/assets/vendor/flatpickr/css/flatpickr.min.css',
 	'resources/assets/vendor/choices/css/choices.min.css',
+	'resources/assets/vendor/glightbox/css/glightbox.css',
+	'resources/assets/vendor/tiny-slider/tiny-slider.css',
 
     'resources/assets/css/style.css'
     ])
@@ -99,6 +101,9 @@
     'resources/assets/vendor/aos/aos.js',
     'resources/assets/vendor/flatpickr/js/flatpickr.min.js',
     'resources/assets/vendor/choices/js/choices.min.js',
+    'resources/assets/vendor/glightbox/js/glightbox.js',
+    'resources/assets/vendor/tiny-slider/tiny-slider.js',
+    'resources/assets/vendor/sticky-js/sticky.min.js',
 
     'resources/assets/js/functions.js'
     ])

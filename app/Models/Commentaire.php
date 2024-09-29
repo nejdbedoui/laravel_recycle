@@ -10,7 +10,7 @@ class Commentaire extends Model
     use HasFactory;
 
     // Les attributs mass assignables
-    protected $fillable = ['description', 'email', 'date', 'evenement_communautaire_id'];
+    protected $fillable = ['description', 'email', 'evenement_communautaire_id'];
 
     // Relation Many-to-One avec EvenementCommunautaire
     public function evenementCommunautaire()

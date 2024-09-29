@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date');
             $table->string('nom');
             $table->text('description');
-            $table->string('image')->nullable();
+            $table->string('image');
 
             $table->timestamps();
         });

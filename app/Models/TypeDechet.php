@@ -9,12 +9,14 @@ class TypeDechet extends Model
 {
     use HasFactory;
 
+    protected $table = 'type_dechets';
+
     protected $fillable = ['nom', 'description', 'recyclable', 'dangereux'];
 
-    // Relation Many-to-One avec Dechet
-    public function dechet()
+    // Relation One-to-Many avec Dechet
+    public function dechets()
     {
-        return $this->belongsTo(Dechet::class);
+        return $this->hasMany(Dechet::class);
     }
 
 }

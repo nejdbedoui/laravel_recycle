@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('demandes_dechets', function (Blueprint $table) {
             $table->id();
 
-            $table->date('date')->default(now());
             $table->string('etat')->default('On_Hold');
             $table->integer('quantite');
 

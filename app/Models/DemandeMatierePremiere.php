@@ -9,7 +9,9 @@ class DemandeMatierePremiere extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date', 'etat', 'quantite'];
+    protected $fillable = ['etat', 'quantite'];
+
+    protected $table = 'demande_matiere_premieres';
 
     // Relation Many-to-One avec Societe
     public function societe()

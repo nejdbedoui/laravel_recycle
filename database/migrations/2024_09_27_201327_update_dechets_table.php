@@ -19,6 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('centre_collecte_id')->nullable();
             $table->foreign('centre_collecte_id')->references('id')->on('centre_collectes')->onDelete('cascade');
 
+            $table->unsignedBigInteger('type_dechet_id');  // Clé étrangère vers TypeDechet
+            $table->foreign('type_dechet_id')->references('id')->on('type_dechets')->onDelete('cascade');
+
         });
     }
 
@@ -32,6 +35,9 @@ return new class extends Migration
         Schema::table('dechets', function (Blueprint $table) {
             $table->dropForeign(['centre_collecte_id']);
             $table->dropColumn('centre_collecte_id');
+
+            $table->dropForeign(['type_dechet_id']);
+            $table->dropColumn('type_dechet_id');
         });
     }
 };

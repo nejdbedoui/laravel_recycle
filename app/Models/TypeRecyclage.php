@@ -9,6 +9,8 @@ class TypeRecyclage extends Model
 {
     use HasFactory;
 
+    protected $table = 'type_recyclages';
+
     protected $fillable = ['nom', 'description'];
 
     // Relation Many-to-One avec CentreRecyclage

@@ -9,6 +9,8 @@ class Deplacement extends Model
 {
     use HasFactory;
 
+    protected $table = 'deplacements';
+
     protected $fillable = ['date', 'etat'];
 
     // Relation Many-to-One avec Chauffeur

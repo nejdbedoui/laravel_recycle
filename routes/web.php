@@ -5,6 +5,8 @@ use App\Http\Controllers\AdminCentreCollecteController;
 use App\Http\Controllers\AdminCentreRecyclageController;
 use App\Http\Controllers\ChauffeurController;
 use App\Http\Controllers\SocieteController;
+use App\Http\Controllers\EvenementCommunautaireController;
+use App\Http\Controllers\CommentaireController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +20,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/login');
+
+Route::get('/', [EvenementCommunautaireController::class, 'index'])->name('home.home');
+Route::get('/detailEvenementCommunautaire/{id}', [EvenementCommunautaireController::class, 'show'])->name('home.detailEvenementCommunautaire');
+Route::post('/addCommentaire/{evenementId}', [CommentaireController::class, 'store'])->name('home.storeCommentaire');
 
 Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/', [AdminController::class, 'adminDashboard'])->name('backOffice.adminDashboard');
@@ -46,6 +51,16 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
 
     Route::post('/enableUser/{id}', [AdminController::class, 'enableUser'])->name('user.enable');
     Route::post('/disableUser/{id}', [AdminController::class, 'disableUser'])->name('user.disable');
+
+    Route::post('/addEvenementCommunautaire', [EvenementCommunautaireController::class, 'store'])->name('backOffice.storeEvenementCommunautaire');
+    Route::get('/listEvenementCommunautaire', [EvenementCommunautaireController::class, 'indexAdmin'])->name('backOffice.listEvenementCommunautaire');
+    Route::get('/detailEvenementCommunautaire/{id}', [EvenementCommunautaireController::class, 'showAdmin'])->name('backOffice.detailEvenementCommunautaire');
+    Route::get('/editEvenementCommunautaire/{id}', [EvenementCommunautaireController::class, 'edit'])->name('backOffice.editEvenementCommunautaire');
+    Route::put('/updateEvenementCommunautaire/{id}', [EvenementCommunautaireController::class, 'update'])->name('backOffice.updateEvenementCommunautaire');
+    Route::delete('/deleteEvenementCommunautaire/{id}', [EvenementCommunautaireController::class, 'destroy'])->name('backOffice.deleteEvenementCommunautaire');
+
+    Route::delete('/deleteCommentaire/{id}', [CommentaireController::class, 'destroy'])->name('backOffice.deleteCommentaire');
+
 
     // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
 });
