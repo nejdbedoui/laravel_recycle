@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->string('nom');
             $table->integer('quantite');
+            $table->boolean('etat');
 
             $table->timestamps();
         });

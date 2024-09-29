@@ -7,6 +7,7 @@ use App\Http\Controllers\ChauffeurController;
 use App\Http\Controllers\SocieteController;
 use App\Http\Controllers\EvenementCommunautaireController;
 use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\DechetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
 
 
 Route::get('/', [EvenementCommunautaireController::class, 'index'])->name('home.home');
@@ -62,6 +65,25 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
     Route::delete('/deleteCommentaire/{id}', [CommentaireController::class, 'destroy'])->name('backOffice.deleteCommentaire');
 
 
+
+// Routes CRUD pour les Déchets
+
+    Route::get('/dechetlist', [DechetController::class, 'index'])->name('backOffice.listDechet');
+
+    // Afficher le formulaire d'ajout de déchet
+    Route::get('/dechetcreate', [DechetController::class, 'create'])->name('backOffice.createDechet');
+
+    // Ajouter un nouveau déchet
+    Route::post('/dechetstore', [DechetController::class, 'store'])->name('backOffice.storeDechet');
+
+    // Afficher le formulaire d'édition d'un déchet existant
+    Route::get('/dechetedit/{id}', [DechetController::class, 'edit'])->name('backOffice.editDechet');
+
+    // Mettre à jour un déchet existant
+    Route::put('/dechetupdate/{id}', [DechetController::class, 'update'])->name('backOffice.updateDechet');
+
+    // Supprimer un déchet
+    Route::delete('/dechetdelete/{id}', [DechetController::class, 'destroy'])->name('backOffice.deleteDechet');
     // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
 });
 
