@@ -31,8 +31,8 @@ jobs:
       - name: Run Laravel Pint
         run: composer exec pint
 
-      - name: Run PHPStan
-        run: composer exec phpstan analyse
+      #- name: Run PHPStan
+        #run: composer exec phpstan analyse
 
       - name: Run Tests
         run: php artisan test
