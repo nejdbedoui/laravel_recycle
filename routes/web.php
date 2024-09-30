@@ -63,6 +63,17 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
 
 
     // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
+
+    Route::post('/addZone', [AdminController::class, 'addZone'])->name('backOffice.addZone');
+    Route::get('/listZone', [AdminController::class, 'listZone'])->name('backOffice.listZone');
+    Route::get('/detailZone/{id}', [AdminController::class, 'detailZone'])->name('backOffice.detailZone');
+    Route::post('/deleteZone/{id}', [AdminController::class, 'deletezone'])->name('zone.delete');
+    
+    Route::post('/addCentreCollecte', [AdminController::class, 'addCentreCollecte'])->name('backOffice.addCentreCollecte');
+    Route::get('/listCentreCollecte', [AdminController::class, 'listCentreCollecte'])->name('backOffice.listCentreCollecte');
+    Route::get('/detailCentreCollecte{id}', [AdminController::class, 'detailCentreCollecte'])->name('backOffice.detailCentreCollecte');
+    Route::post('/deleteCentreCollecte/{id}', [AdminController::class, 'deleteCentreCollecte'])->name('CentreCollecte.delete');
+    
 });
 
 Route::prefix('adminCentreCollecte')->middleware(['auth', 'verified', 'role:adminCentreCollecte'])->group(function () {
