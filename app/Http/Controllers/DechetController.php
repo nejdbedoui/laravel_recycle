@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CentreCollecte;
 use App\Models\Dechet;
+use App\Models\TypeDechet;
 use Illuminate\Http\Request;
 
 class DechetController extends Controller
@@ -13,7 +15,9 @@ class DechetController extends Controller
     public function index()
     {
         $dechets = Dechet::all(); // Récupère tous les enregistrements de déchets
-        return view('backOffice.listDechets', compact('dechets')); // Retourne la vue avec la liste des déchets
+        $typesDechets = TypeDechet::all(); // Récupère tous les types de déchets
+        $centreCollecte = CentreCollecte::all(); // Récupère tous les centres de collecte
+        return view('backOffice.listDechets', compact('dechets', 'typesDechets', 'centreCollecte')); // Passe toutes les variables à la vue
     }
 
     /**
@@ -21,7 +25,9 @@ class DechetController extends Controller
      */
     public function create()
     {
-        return view('backOffice.createDechet'); // Retourne la vue de création d'un déchet
+        $typesDechets = TypeDechet::all(); // Récupère tous les types de déchets
+        $centreCollecte = CentreCollecte::all(); // Récupère tous les centres de collecte
+        return view('backOffice.createDechet', compact('typesDechets', 'centreCollecte')); // Passe les types et centres à la vue
     }
 
     /**
@@ -33,6 +39,7 @@ class DechetController extends Controller
             'nom' => 'required|string|max:255',
             'quantite' => 'required|integer',
             'type_dechet_id' => 'required|exists:type_dechets,id',
+            'centre_collecte_id' => 'required|exists:centre_collectes,id', // Validation pour le centre de collecte
             'etat' => 'required|boolean',
         ]);
 
@@ -40,10 +47,11 @@ class DechetController extends Controller
             'nom' => $request->nom,
             'quantite' => $request->quantite,
             'type_dechet_id' => $request->type_dechet_id,
+            'centre_collecte_id' => $request->centre_collecte_id, // Enregistrement du centre de collecte
             'etat' => $request->etat,
         ]);
 
-        return redirect()->route('backOffice.listDechets')->with('success', 'Déchet ajouté avec succès.');
+        return redirect()->route('backOffice.listDechet')->with('success', 'Déchet ajouté avec succès.');
     }
 
     /**
@@ -60,8 +68,10 @@ class DechetController extends Controller
      */
     public function edit($id)
     {
-        $dechet = Dechet::findOrFail($id);
-        return view('backOffice.editDechet', compact('dechet'));
+        $dechet = Dechet::findOrFail($id); // Récupère le déchet à modifier
+        $typesDechets = TypeDechet::all(); // Récupère tous les types de déchets
+        $centreCollecte = CentreCollecte::all(); // Récupère tous les centres de collecte
+        return view('backOffice.editDechet', compact('dechet', 'typesDechets', 'centreCollecte')); // Passe les données à la vue
     }
 
     /**
@@ -73,6 +83,7 @@ class DechetController extends Controller
             'nom' => 'required|string|max:255',
             'quantite' => 'required|integer',
             'type_dechet_id' => 'required|exists:type_dechets,id',
+            'centre_collecte_id' => 'required|exists:centre_collectes,id', // Validation pour le centre de collecte
             'etat' => 'required|boolean',
         ]);
 
@@ -81,10 +92,11 @@ class DechetController extends Controller
             'nom' => $request->nom,
             'quantite' => $request->quantite,
             'type_dechet_id' => $request->type_dechet_id,
+            'centre_collecte_id' => $request->centre_collecte_id, // Mise à jour du centre de collecte
             'etat' => $request->etat,
         ]);
 
-        return redirect()->route('backOffice.listDechets')->with('success', 'Déchet mis à jour avec succès.');
+        return redirect()->route('backOffice.listDechet')->with('success', 'Déchet mis à jour avec succès.');
     }
 
     /**
@@ -95,6 +107,6 @@ class DechetController extends Controller
         $dechet = Dechet::findOrFail($id);
         $dechet->delete();
 
-        return redirect()->route('backOffice.listDechets')->with('success', 'Déchet supprimé avec succès.');
+        return redirect()->route('backOffice.listDechet')->with('success', 'Déchet supprimé avec succès.');
     }
 }

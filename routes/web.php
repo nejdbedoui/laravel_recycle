@@ -8,6 +8,7 @@ use App\Http\Controllers\SocieteController;
 use App\Http\Controllers\EvenementCommunautaireController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\DechetController;
+use App\Http\Controllers\TypeDechetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,6 +86,26 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
     // Supprimer un déchet
     Route::delete('/dechetdelete/{id}', [DechetController::class, 'destroy'])->name('backOffice.deleteDechet');
     // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
+
+
+    // Routes CRUD pour les Types de Déchets
+    Route::get('/typeDechetlist', [TypeDechetController::class, 'index'])->name('backOffice.listTypeDechet');
+
+// Afficher le formulaire d'ajout de type de déchet
+    Route::get('/typeDechetcreate', [TypeDechetController::class, 'create'])->name('backOffice.createTypeDechet');
+
+// Ajouter un nouveau type de déchet
+    Route::post('/typeDechetstore', [TypeDechetController::class, 'store'])->name('backOffice.storeTypeDechet');
+
+// Afficher le formulaire d'édition d'un type de déchet existant
+    Route::get('/typeDechetedit/{id}', [TypeDechetController::class, 'edit'])->name('backOffice.editTypeDechet');
+
+// Mettre à jour un type de déchet existant
+    Route::put('/typeDechetupdate/{id}', [TypeDechetController::class, 'update'])->name('backOffice.updateTypeDechet');
+
+// Supprimer un type de déchet
+    Route::delete('/typeDechetdelete/{id}', [TypeDechetController::class, 'destroy'])->name('backOffice.deleteTypeDechet');
+
 });
 
 Route::prefix('adminCentreCollecte')->middleware(['auth', 'verified', 'role:adminCentreCollecte'])->group(function () {
