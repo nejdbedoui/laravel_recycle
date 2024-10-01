@@ -11,11 +11,17 @@
             <div class="col-12 mb-4 mb-sm-5">
                 <div class="d-sm-flex justify-content-between align-items-center">
                     <h1 class="h3 mb-3 mb-sm-0">liste de dechets</h1>
+
                     <div class="d-grid">
                         <a data-bs-toggle="modal" data-bs-target="#addWasteModal" class="btn btn-primary-soft mb-0">
                             <i class="bi bi-plus-circle me-2"></i>Ajouter Dechet
                         </a>
+                        <br>
+                        <a  href="{{url('/admin/typeDechetlist')}}" class="btn btn-primary-soft mb-0">
+                            Type Dechets
+                        </a>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -82,6 +88,7 @@
                         <h1 class="modal-title fs-5" id="addWasteModalLabel">Ajouter Dechet</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+
                     <div class="modal-body">
                         <form class="text-start" method="POST" action="{{ route('backOffice.storeDechet') }}">
                             @csrf
