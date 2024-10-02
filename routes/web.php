@@ -3,10 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminCentreCollecteController;
 use App\Http\Controllers\AdminCentreRecyclageController;
+use App\Http\Controllers\CentreRecyclageController;
 use App\Http\Controllers\ChauffeurController;
 use App\Http\Controllers\SocieteController;
 use App\Http\Controllers\EvenementCommunautaireController;
 use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\TypeRecyclageController;
 use App\Http\Controllers\DechetController;
 use App\Http\Controllers\TypeDechetController;
 use Illuminate\Support\Facades\Route;
@@ -89,6 +91,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
 
 
 
+
     // Routes CRUD pour les Types de Déchets
     Route::get('/typeDechetlist', [TypeDechetController::class, 'index'])->name('backOffice.listTypeDechet');
 
@@ -118,6 +121,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
     Route::get('/detailCentreCollecte{id}', [AdminController::class, 'detailCentreCollecte'])->name('backOffice.detailCentreCollecte');
     Route::post('/deleteCentreCollecte/{id}', [AdminController::class, 'deleteCentreCollecte'])->name('CentreCollecte.delete');
     
+
 
 });
 
@@ -167,6 +171,30 @@ Route::prefix('societe')->middleware(['auth', 'verified', 'role:societe'])->grou
     });
 
     // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
+
+// 
+});
+// Routes pour le back-office
+Route::prefix('backOffice')->name('backOffice.')->group(function () {
+    
+    // Routes pour les centres de recyclage
+    Route::get('/centrerecyclage', [CentreRecyclageController::class, 'index'])->name('indexcentrerecyclage');
+    Route::get('/centrerecyclage/create', [CentreRecyclageController::class, 'create'])->name('createcentrerecyclage');
+    Route::post('/centrerecyclage', [CentreRecyclageController::class, 'store'])->name('storecentrerecyclage'); // Correct route
+    Route::get('/centrerecyclage/{centreRecyclage}', [CentreRecyclageController::class, 'show'])->name('showcentrerecyclage');
+    Route::get('/centrerecyclage/{centreRecyclage}/edit', [CentreRecyclageController::class, 'edit'])->name('editcentrerecyclage');
+    Route::put('/centrerecyclage/{centreRecyclage}', [CentreRecyclageController::class, 'update'])->name('updatecentrerecyclage');
+    Route::delete('/centrerecyclage/{centreRecyclage}', [CentreRecyclageController::class, 'destroy'])->name('destroycentrerecyclage');
+    // Routes pour les types de recyclage
+    Route::get('/typesrecyclage', [TypeRecyclageController::class, 'index'])->name('indextypesrecyclage'); // Liste des types de recyclage
+    Route::get('/typesrecyclage/create', [TypeRecyclageController::class, 'create'])
+    ->name('createtypesrecyclage');
+ Route::post('/typesrecyclage', [TypeRecyclageController::class, 'store'])->name('storetypesrecyclage'); // Stocker un nouveau type
+    Route::get('/typesrecyclage/{typeRecyclage}', [TypeRecyclageController::class, 'show'])->name('showtypesrecyclage'); // Afficher un type spécifique
+    Route::get('/typesrecyclage/{typeRecyclage}/edit', [TypeRecyclageController::class, 'edit'])->name('edittypesrecyclage'); // Formulaire d'édition d'un type
+    Route::put('/typesrecyclage/{typeRecyclage}', [TypeRecyclageController::class, 'update'])->name('updatetypesrecyclage'); // Mettre à jour un type
+    Route::delete('/typesrecyclage/{typeRecyclage}', [TypeRecyclageController::class, 'destroy'])->name('destroytpesrecyclage'); // Supprimer un type
+
 });
 
 require __DIR__.'/auth.php';
