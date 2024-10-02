@@ -168,8 +168,22 @@
                                         <li class="nav-item"><a class="nav-link" href="agent-listings.html"><i
                                                     class="bi bi-journals fa-fw me-1"></i>Listings</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-bookings.html"><i
-                                                    class="bi bi-bookmark-heart fa-fw me-1"></i>Bookings</a></li>
+                                                    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="recyclageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-bookmark-heart fa-fw me-1"></i> Recyclage
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="recyclageDropdown">
+        <li>
+        <a class="dropdown-item" href="{{ route('backOffice.indexcentrerecyclage') }}">Centre Recyclage</a>
+        </li>
+        <li>
+        <a class="dropdown-item" href="{{ route('backOffice.indextypesrecyclage') }}">Type Recyclage</a>
+
+        </li>
+    </ul>
+</li>
+
+
 
                                         <li class="nav-item"><a class="nav-link" href="agent-activities.html"><i
                                                     class="bi bi-bell fa-fw me-1"></i>Activities</a></li>
