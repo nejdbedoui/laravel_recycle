@@ -9,7 +9,7 @@ class Dechet extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'quantite', 'type_dechet_id'];
+    protected $fillable = ['nom', 'quantite','etat', 'type_dechet_id'];
 
     protected $table = 'dechets';
 

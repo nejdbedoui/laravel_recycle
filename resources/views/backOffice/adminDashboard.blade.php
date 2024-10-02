@@ -48,6 +48,10 @@
                         <!-- Menu item -->
                         <li class="nav-item"><a class="nav-link" href="{{url('/admin/listEvenementCommunautaire')}}">Community Events List</a></li>
 
+                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/dechetlist')}}">Dechets</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/typeDechetlist')}}">Type Dechet</a></li>
+
+
                         <!-- Menu item -->
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="collapse" href="#collapseguest" role="button"
@@ -87,6 +91,7 @@
                         <li class="nav-item"><a class="nav-link" href="admin-settings.html">Admin Settings</a></li>
 
                     </ul>
+
                     <!-- Sidebar menu end -->
 
                     <!-- Sidebar footer START -->
