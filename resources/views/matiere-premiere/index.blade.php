@@ -1,10 +1,9 @@
 @extends('index')
+@section('title', 'EcoCycle - Matières Premières')
 
-@section('title', 'EcoCycle - Driver Dashboard')
 
 @section('content')
-
-    <section>
+<section>
     @yield('content')
 
         <!-- Header START -->
@@ -203,62 +202,185 @@
                     </div>
                 </div>
             </section>
-            <!-- =======================
-            Menu item END -->
 
-            <!-- =======================
-            Content START -->
-            @yield('dashboard-content')
-            
-            <!-- =======================
-        Content END -->
+  <section class="pt-0">
+	<div class="container vstack gap-4">
+		<!-- Title START -->
+		<div class="row">
+			<div class="col-12">
+				<h1 class="fs-4 mb-0"><i class="bi bi-journals fa-fw me-1"></i>Matières Premières</h1>
+			</div>
+		</div>
 
-        </main>
-        <!-- **************** MAIN CONTENT END **************** -->
+	<!-- Matières Premières table START -->
+    <div class="row">
+			<div class="col-12">
+				<div class="card border">
+					<!-- Card header START -->
+					<div class="card-header border-bottom">
+						<h5 class="card-header-title">Liste des matières Premières</h5>
+					</div>
+					<!-- Card header END -->
+					<div class="card-body">
 
-        <!-- =======================
-        Footer START -->
-        <footer class="bg-dark p-3">
-            <div class="container">
-                <div class="row align-items-center">
+            <div class="pull-right mb-2">
+                <!-- Button to trigger modal -->
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMatierePremiereModal">
+                    <i class="fas fa-plus"></i> Ajouter
+                </button>
+            </div>    
+            <form method="GET" action="{{ route('matiere-premiere.index') }}" class="mb-3">
+            <div class="input-group mb-3">
+        <input type="text" id="search" class="form-control" placeholder="Rechercher par nom ou quantité" value="{{ request('search') }}">
+    </div>
+</form>
+						
+                <!-- Success message -->
+                @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                                <p>{{ $message }}</p>
+                </div>
+                @endif
 
-                    <!-- Widget -->
-                    <div class="col-md-3">
-                        <div class="text-center text-md-start mb-3 mb-md-0">
-                            <a href="{{ url('/') }}"> <img class="h-50px"
-                                                           src="{{ Vite::asset('resources/assets/images/logo.png') }}"
-                                                           alt="logo">
-                            </a>
-                        </div>
+    <!-- Table to display data -->
+  <!-- Matières Premières list START -->
+  <div class="table-responsive border-0">
+  @if ($matieresPremieres->count())
+  <table class="table align-middle p-4 mb-0 table-hover table-shrink  text-center">
+            <!-- Table head -->
+               
+            <thead class="table-light">
+               <tr>
+                   <th scope="col" class="border-0">S.No</th>
+                   <th scope="col" class="border-0">Nom</th>
+                   <th scope="col" class="border-0">Quantité</th>
+                   <th scope="col" class="border-0 rounded-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($matieresPremieres as $matierePremiere)
+                <tr>
+                    <td>{{ $matierePremiere->id }}</td>
+                    <td>{{ $matierePremiere->nom }}</td>
+                    <td>{{ $matierePremiere->quantite }}</td>
+                    <td class="action-buttons">
+                        <a class="btn btn-outline-info btn-sm" href="{{ route('matiere-premiere.show', $matierePremiere->id) }}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ route('matiere-premiere.edit', $matierePremiere->id) }}">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ route('matiere-premiere.destroy', $matierePremiere->id) }}" method="POST" style="display:inline;">
+                          @csrf
+                          @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette matière première ?')">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="my-4">
+    {!! $matieresPremieres->links('pagination::bootstrap-5') !!}
+</div>
+
+<style>
+    .pagination .page-item {
+        margin: 0 5px; /* Adjust the value as needed for your desired gap */
+    }
+</style>
+
+@endif
+
+</div>
+
+<!-- Modal for adding a new Matière Première -->
+<div class="modal fade" id="addMatierePremiereModal" tabindex="-1" aria-labelledby="addMatierePremiereLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMatierePremiereLabel">Ajouter Matière Première</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('matiere-premiere.store') }}" method="POST">
+                    @csrf
+                    <!-- Nom Field -->
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="nom" name="nom" required>
                     </div>
 
-                    <!-- Widget -->
-                    <div class="col-md-5">
-                        <div class="text-body-secondary text-primary-hover"> Copyrights ©2024 MASTERMINDS. Build by <a
-                                href="" class="text-body-secondary">ESPRIT</a>.
-                        </div>
+                    <!-- Quantité Field -->
+                    <div class="mb-3">
+                        <label for="quantite" class="form-label">Quantité</label>
+                        <input type="number" class="form-control" id="quantite" name="quantite" required>
                     </div>
 
-                    <!-- Widget -->
-                    <div class="col-md-4">
-                        <ul class="list-inline mb-0 text-center text-md-end">
-                            <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-facebook"></i></a>
-                            </li>
-                            <li class="list-inline-item ms-2"><a href=""><i
-                                        class="text-white fab fa-instagram"></i></a></li>
-                            <li class="list-inline-item ms-2"><a href=""><i
-                                        class="text-white fab fa-linkedin-in"></i></a>
-                            </li>
-                            <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-twitter"></i></a>
-                            </li>
-                        </ul>
+                    <div class="form-group">
+                        <label for="centre_recyclage_id">Centre de Recyclage</label>
+                        <select name="centre_recyclage_id" id="centre_recyclage_id" class="form-control" required>
+                            @foreach($centres as $centre)
+                            <option value="{{ $centre->id }}">{{ $centre->nom }}</option>
+                            @endforeach
+                        </select>
                     </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+<!-- Footer START -->
+<footer class="bg-dark p-3">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <!-- Widget -->
+            <div class="col-md-3">
+                <div class="text-center text-md-start mb-3 mb-md-0">
+                    <a href="{{ url('/') }}">
+                        <img class="h-50px" src="{{ Vite::asset('resources/assets/images/logo.png') }}" alt="logo">
+                    </a>
                 </div>
             </div>
-        </footer>
-        <!-- =======================
-        Footer END -->
 
-    </section>
+            <!-- Widget -->
+            <div class="col-md-5">
+                <div class="text-body-secondary text-primary-hover"> Copyrights ©2024 MASTERMINDS. Build by <a href="" class="text-body-secondary">ESPRIT</a>.
+                </div>
+            </div>
 
+            <!-- Widget -->
+            <div class="col-md-4">
+                <ul class="list-inline mb-0 text-center text-md-end">
+                    <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-facebook"></i></a></li>
+                    <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-instagram"></i></a></li>
+                    <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-linkedin-in"></i></a></li>
+                    <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-twitter"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- =======================
+Footer END -->
+<script>
+    // Listen for input changes
+    document.getElementById('search').addEventListener('input', function() {
+        const searchQuery = this.value;
+
+        // Create a new URL with the search parameter
+        const url = new URL(window.location.href);
+        url.searchParams.set('search', searchQuery);
+
+        // Redirect to the new URL
+        window.location.href = url.toString();
+    });
+</script>
 @endsection
