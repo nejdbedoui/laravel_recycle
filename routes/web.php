@@ -8,6 +8,7 @@ use App\Http\Controllers\ChauffeurController;
 use App\Http\Controllers\SocieteController;
 use App\Http\Controllers\EvenementCommunautaireController;
 use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\MatierePremiereController;
 use App\Http\Controllers\TypeRecyclageController;
 use App\Http\Controllers\DechetController;
 use App\Http\Controllers\TypeDechetController;
@@ -146,8 +147,13 @@ Route::prefix('adminCentreRecyclage')->middleware(['auth', 'verified', 'role:adm
         Route::delete('/profile', [AdminCentreRecyclageController::class, 'destroy'])->name('frontOffice.adminCentreRecyclageProfile.destroy');
     });
 
+
+    
+
     // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
 });
+
+Route::resource('matiere-premiere', MatierePremiereController::class);
 
 Route::prefix('chauffeur')->middleware(['auth', 'verified', 'role:chauffeur'])->group(function () {
     Route::get('/', [ChauffeurController::class, 'chauffeurDashboard'])->name('frontOffice.chauffeurDashboard');
