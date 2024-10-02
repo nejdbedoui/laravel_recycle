@@ -1,25 +1,28 @@
 FROM php:8.2
 
-# Update and install necessary packages
 RUN apt-get update -y && apt-get install -y \
     openssl zip unzip git \
-    libonig-dev default-mysql-client
+    libonig-dev default-mysql-client \
+    curl \
+    gnupg
 
-# Install Composer
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring
 
-# Set working directory
 WORKDIR /app
 COPY . /app
 
-# Install PHP dependencies via Composer
 RUN composer install
 
-# Command to run your application
-CMD php artisan serve --host=0.0.0.0 --port=8000
+RUN npm install
 
-# Expose the port for the application
+RUN php artisan storage:link
+
+
+CMD ["npm", "run", "start"]
+
 EXPOSE 8000

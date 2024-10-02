@@ -88,6 +88,7 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
     // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
 
 
+
     // Routes CRUD pour les Types de Déchets
     Route::get('/typeDechetlist', [TypeDechetController::class, 'index'])->name('backOffice.listTypeDechet');
 
@@ -105,6 +106,18 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
 
 // Supprimer un type de déchet
     Route::delete('/typeDechetdelete/{id}', [TypeDechetController::class, 'destroy'])->name('backOffice.deleteTypeDechet');
+
+
+    Route::post('/addZone', [AdminController::class, 'addZone'])->name('backOffice.addZone');
+    Route::get('/listZone', [AdminController::class, 'listZone'])->name('backOffice.listZone');
+    Route::get('/detailZone/{id}', [AdminController::class, 'detailZone'])->name('backOffice.detailZone');
+    Route::post('/deleteZone/{id}', [AdminController::class, 'deletezone'])->name('zone.delete');
+    
+    Route::post('/addCentreCollecte', [AdminController::class, 'addCentreCollecte'])->name('backOffice.addCentreCollecte');
+    Route::get('/listCentreCollecte', [AdminController::class, 'listCentreCollecte'])->name('backOffice.listCentreCollecte');
+    Route::get('/detailCentreCollecte{id}', [AdminController::class, 'detailCentreCollecte'])->name('backOffice.detailCentreCollecte');
+    Route::post('/deleteCentreCollecte/{id}', [AdminController::class, 'deleteCentreCollecte'])->name('CentreCollecte.delete');
+    
 
 });
 
