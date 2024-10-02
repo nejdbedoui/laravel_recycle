@@ -3,8 +3,8 @@
 @extends('index')
 
 @section('content')
-<div class="container">
-    <h1>Créer un nouveau Centre de Recyclage</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Créer un nouveau Centre de Recyclage</h1>
 
     <!-- Display validation errors, if any -->
     @if ($errors->any())
@@ -36,18 +36,12 @@
             <input type="number" name="capacite" id="capacite" class="form-control" value="{{ old('capacite') }}" required>
         </div>
 
-        <!-- Dropdown to select Type de Recyclage -->
-        <div class="form-group">
-            <label for="type_recyclage">Types de Recyclage:</label>
-            <select name="type_recyclage[]" id="type_recyclage" class="form-control" multiple>
-                @foreach($typesRecyclage as $type)
-                    <option value="{{ $type->id }}">{{ $type->nom }}</option>
-                @endforeach
-            </select>
-            <small class="form-text text-muted">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs types</small>
+    
+       <!-- Buttons with margin -->
+       <div class="mt-3"> <!-- Add a margin-top to the button container -->
+            <button type="submit" class="btn btn-primary">Créer le Centre</button>
+            <a href="{{ route('backOffice.indexcentrerecyclage') }}" class="btn btn-secondary ml-3">Annuler</a> <!-- Add margin-left for spacing -->
         </div>
-
-        <button type="submit" class="btn btn-primary">Créer le Centre</button>
     </form>
 </div>
 @endsection

@@ -1,8 +1,8 @@
 @extends('index')
 
 @section('content')
-<div class="container">
-    <h1>Éditer le type de recyclage</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Éditer le type de recyclage</h1>
     <form action="{{ route('backOffice.updatetypesrecyclage', $typeRecyclage) }}" method="POST">
         @csrf
         @method('PUT')

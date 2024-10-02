@@ -1,7 +1,8 @@
 @extends('index')
 
 @section('content')
-    <h1>Modifier le Centre de Recyclage</h1>
+<div class="container mt-4"> <!-- Add margin-top to the container for spacing -->
+    <h1 class="mb-4">Modifier le Centre de Recyclage</h1> <!-- Add margin-bottom to the heading -->
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -32,6 +33,10 @@
             <input type="number" class="form-control" id="capacite" name="capacite" value="{{ $centreRecyclage->capacite }}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        <div class="mt-4"> <!-- Add margin-top for button spacing -->
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+            <a href="{{ route('backOffice.indexcentrerecyclage') }}" class="btn btn-secondary ml-2">Annuler</a> <!-- Button to cancel with margin -->
+        </div>
     </form>
+</div>
 @endsection
