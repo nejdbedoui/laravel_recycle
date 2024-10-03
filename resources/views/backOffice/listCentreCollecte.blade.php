@@ -38,24 +38,23 @@
                         <div class="card-body text-center pb-0">
                             <!-- Avatar Image -->
                             <div >
-                            <x-maps-leaflet style="height:200px" :zoomLevel="15" :centerPoint="['lat' => 36.7959838520263, 'long' => 10.178585424091015]" :markers="[['lat' => 52.16444513293423, 'long' => 5.985622388024091]]"></x-maps-leaflet>
-                            </div>
+                                  </div>
                             <!-- Title -->
                             <h5 class="mb-1">{{ $centreCollecte->nom }}</h5>
                             <small><i class="bi bi-person-badge me-1"></i>{{ $centreCollecte->adresse }}</small>
-                            
+
                         </div>
                         <!-- card footer -->
                         <div class="card-footer d-flex gap-3 align-items-center">
                             <a href="{{ route('backOffice.detailCentreCollecte', $centreCollecte->id) }}" class="btn btn-sm btn-primary-soft mb-0 w-100">View detail</a>
-                           
+
                             <form action="{{ route('CentreCollecte.delete', $centreCollecte->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-sm btn-danger-soft flex-shrink-0 mb-0">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -109,5 +108,5 @@
             </div>
         </div>
     </div>
-   
+
 @endsection

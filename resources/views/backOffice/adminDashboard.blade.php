@@ -23,14 +23,24 @@
 
                     <!-- Sidebar menu START -->
                     <ul class="navbar-nav flex-column" id="navbar-sidebar">
+<<<<<<< HEAD
     <!-- Menu item -->
     <li class="nav-item">
         <a href="{{ url('/admin/dashboard') }}" class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">Dashboard</a>
     </li>
+=======
+                        <!-- Menu item -->
+                        <li class="nav-item"><a href="" class="nav-link active">Dashboard</a></li>
+                        <!-- Menu item -->
+                        <li class="nav-item">
+                            <a href="{{ url('/admin/dashboard') }}" class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">Dashboard</a>
+                        </li>
+>>>>>>> cf47712 (fix nejd missing code)
 
     <!-- Title -->
     <li class="nav-item ms-2 my-2">Pages</li>
 
+<<<<<<< HEAD
     <!-- Menu item with submenu -->
     <li class="nav-item">
         <a class="nav-link {{ Request::is('admin/listSociete', 'admin/listChauffeur', 'admin/listAdminCentreCollecte', 'admin/listAdminCentreRecyclage') ? 'active' : '' }}" 
@@ -51,6 +61,28 @@
     <li class="nav-item"><a class="nav-link {{ Request::is('admin/listEvenementCommunautaire') ? 'active' : '' }}" href="{{ url('/admin/listEvenementCommunautaire') }}">Community Events List</a></li>
     <li class="nav-item"><a class="nav-link {{ Request::is('admin/listZone') ? 'active' : '' }}" href="{{ url('/admin/listZone') }}">List Zone</a></li>
     <li class="nav-item"><a class="nav-link {{ Request::is('admin/listCentreCollecte') ? 'active' : '' }}" href="{{ url('/admin/listCentreCollecte') }}">List Centre de Collecte</a></li>
+=======
+                        <!-- Menu item with submenu -->
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('admin/listSociete', 'admin/listChauffeur', 'admin/listAdminCentreCollecte', 'admin/listAdminCentreRecyclage') ? 'active' : '' }}"
+                               data-bs-toggle="collapse" href="#collapsebooking" role="button" aria-expanded="false" aria-controls="collapsebooking">
+                                Users
+                            </a>
+                            <!-- Submenu -->
+                            <ul class="nav collapse flex-column {{ Request::is('admin/listSociete', 'admin/listChauffeur', 'admin/listAdminCentreCollecte', 'admin/listAdminCentreRecyclage') ? 'show' : '' }}"
+                                id="collapsebooking" data-bs-parent="#navbar-sidebar">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('admin/listSociete') ? 'active' : '' }}" href="{{ url('/admin/listSociete') }}">Company List</a></li>
+                                <li class="nav-item"><a class="nav-link {{ Request::is('admin/listChauffeur') ? 'active' : '' }}" href="{{ url('/admin/listChauffeur') }}">Driver List</a></li>
+                                <li class="nav-item"><a class="nav-link {{ Request::is('admin/listAdminCentreCollecte') ? 'active' : '' }}" href="{{ url('/admin/listAdminCentreCollecte') }}">Collection Center Admin List</a></li>
+                                <li class="nav-item"><a class="nav-link {{ Request::is('admin/listAdminCentreRecyclage') ? 'active' : '' }}" href="{{ url('/admin/listAdminCentreRecyclage') }}">Recycling Center Admin List</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Menu item -->
+                        <li class="nav-item"><a class="nav-link {{ Request::is('admin/listEvenementCommunautaire') ? 'active' : '' }}" href="{{ url('/admin/listEvenementCommunautaire') }}">Community Events List</a></li>
+                        <li class="nav-item"><a class="nav-link {{ Request::is('admin/listZone') ? 'active' : '' }}" href="{{ url('/admin/listZone') }}">List Zone</a></li>
+                        <li class="nav-item"><a class="nav-link {{ Request::is('admin/listCentreCollecte') ? 'active' : '' }}" href="{{ url('/admin/listCentreCollecte') }}">List Centre de Collecte</a></li>
+>>>>>>> cf47712 (fix nejd missing code)
 
     <!-- Guests Menu -->
     <li class="nav-item">
