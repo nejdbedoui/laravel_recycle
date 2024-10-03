@@ -8,8 +8,6 @@ use App\Models\AdminCentreRecyclage;
 use App\Models\Chauffeur;
 use App\Models\Societe;
 use App\Models\User;
-use App\Models\ZoneCollecte;
-use App\Models\CentreCollecte;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -237,13 +235,7 @@ class AdminController extends Controller
 
         return back()->with('success', 'The user has been successfully deactivated.');
     }
-
-<<<<<<< HEAD
-
-        /**
-=======
-    /**
->>>>>>> cf47712 (fix nejd missing code)
+/**
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -266,7 +258,6 @@ class AdminController extends Controller
 
 
     public function listZone(Request $request)
-<<<<<<< HEAD
 {
 
     $search = $request->input('name'); 
@@ -280,21 +271,7 @@ class AdminController extends Controller
     return view('backOffice.listZone', compact('zones'));
 }
 
-=======
-    {
 
-        $search = $request->input('name');
-
-        if ($search) {
-            $zones = ZoneCollecte::where('nom', 'like', '%' . $search . '%')->get();
-        } else {
-            $zones = ZoneCollecte::all();
-        }
-
-        return view('backOffice.listZone', compact('zones'));
-    }
-
->>>>>>> cf47712 (fix nejd missing code)
 
     public function detailZone($id)
     {
@@ -303,11 +280,7 @@ class AdminController extends Controller
     }
 
 
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> cf47712 (fix nejd missing code)
     public function deletezone($id)
     {
         $zone = ZoneCollecte::findOrFail($id);
@@ -315,24 +288,9 @@ class AdminController extends Controller
 
         return back()->with('success', 'Zone Deleted.');
     }
-<<<<<<< HEAD
-    
-=======
->>>>>>> cf47712 (fix nejd missing code)
 
-
-
-
-
-
-
-
-<<<<<<< HEAD
      /**
-=======
 
-    /**
->>>>>>> cf47712 (fix nejd missing code)
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -343,15 +301,10 @@ class AdminController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'adresse' => ['required', 'string', 'max:255'],
             'capacite' => ['required', 'int', 'min:10'],
-<<<<<<< HEAD
             'zone_id' => ['required', 'exists:zone_collectes,id'] 
         ]);
     
-=======
-            'zone_id' => ['required', 'exists:zone_collectes,id']
-        ]);
 
->>>>>>> cf47712 (fix nejd missing code)
         $centreCollecte = CentreCollecte::create([
             'nom' => $request->name,
             'adresse' => $request->adresse,
@@ -365,7 +318,7 @@ class AdminController extends Controller
 
 
     public function listCentreCollecte(Request $request)
-<<<<<<< HEAD
+
 {
 
     $search = $request->input('name'); 
@@ -378,20 +331,7 @@ class AdminController extends Controller
     $zones = ZoneCollecte::all();
     return view('backOffice.listCentreCollecte', compact('centresCollectes','zones'));
 }
-=======
-    {
 
-        $search = $request->input('name');
-
-        if ($search) {
-            $centresCollectes = CentreCollecte::where('nom', 'like', '%' . $search . '%')->get();
-        } else {
-            $centresCollectes = CentreCollecte::all();
-        }
-        $zones = ZoneCollecte::all();
-        return view('backOffice.listCentreCollecte', compact('centresCollectes','zones'));
-    }
->>>>>>> cf47712 (fix nejd missing code)
 
 
     public function detailCentreCollecte($id)
@@ -401,11 +341,7 @@ class AdminController extends Controller
     }
 
 
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> cf47712 (fix nejd missing code)
     public function deleteCentreCollecte($id)
     {
         $centreCollecte = CentreCollecte::findOrFail($id);
@@ -413,10 +349,5 @@ class AdminController extends Controller
 
         return back()->with('success', 'centre de Collecte Deleted.');
     }
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> cf47712 (fix nejd missing code)
 
 }

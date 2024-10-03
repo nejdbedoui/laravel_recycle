@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
     {
         // créer automatiquement un compte administrateur
         $this->call(AdminUserSeeder::class);
-
+        $this->call(SocieteSeeder::class);
+        $this->call(MatierePremiereSeeder::class);
+        $this->call(CentreRecyclageSeeder::class);
+        
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
