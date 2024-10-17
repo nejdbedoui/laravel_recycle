@@ -1,7 +1,5 @@
 @extends('frontOffice.adminCentreCollecte.adminCentreCollecteDashboard')
 
-@section('title', 'EcoCycle - Driver Profile')
-
 @section('dashboard-content')
 
     <section class="pt-0">

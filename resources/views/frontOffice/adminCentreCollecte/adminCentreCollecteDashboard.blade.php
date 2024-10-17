@@ -1,7 +1,5 @@
 @extends('index')
 
-@section('title', 'EcoCycle - Driver Dashboard')
-
 @section('content')
 
     <section>
@@ -52,7 +50,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="{{ url ('/chauffeur/profile') }}"><i
+                                <li><a class="dropdown-item" href="{{ url ('/adminCentreCollecte/profile') }}"><i
                                             class="bi bi-person fa-fw me-2"></i>My Profile</a></li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -139,6 +137,9 @@
                                 <img class="avatar-img rounded-circle" src="{{ asset('storage/' . Auth::user()->image) }}" alt="">
                             </div>
                             <h4 class="mb-2 mb-sm-0 ms-sm-3"><span class="fw-light">Hi</span> {{ Auth::user()->name }}</h4>
+                            @if(is_null($centreCollecte))
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-sm btn-primary-soft mb-0 ms-auto flex-shrink-0"><i class="bi bi-plus-lg fa-fw me-2"></i>Add Collection Center</a>
+                            @endif
                         </div>
                         <!-- Avatar and info START -->
 
@@ -162,38 +163,16 @@
                                 <div class="navbar navbar-expand-xl">
                                     <ul class="navbar-nav navbar-offcanvas-menu">
 
-                                        <li class="nav-item"><a class="nav-link active" href="agent-dashboard.html"><i
-                                                    class="bi bi-house-door fa-fw me-1"></i>Dashboard</a></li>
+                                        @if(!is_null($centreCollecte))
+                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreCollecte/detailCentreCollecte') }}"><i class="bi bi-house-door fa-fw me-1"></i>Collection Center</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-listings.html"><i
-                                                    class="bi bi-journals fa-fw me-1"></i>Listings</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreCollecte/listDemandeDechet') }}"><i class="bi bi-trash fa-fw me-1"></i>Waste Demand List</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-bookings.html"><i
-                                                    class="bi bi-bookmark-heart fa-fw me-1"></i>Bookings</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreCollecte/listTrips') }}"><i class="bi bi-truck fa-fw me-1"></i>Trips List</a></li>
+                                        @endif
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-activities.html"><i
-                                                    class="bi bi-bell fa-fw me-1"></i>Activities</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreCollecte/listTypeDechet') }}"><i class="bi bi-card-list fa-fw me-1"></i>Waste Types List</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-earnings.html"><i
-                                                    class="bi bi-graph-up-arrow fa-fw me-1"></i>Earnings</a></li>
-
-                                        <li class="nav-item"><a class="nav-link" href="agent-reviews.html"><i
-                                                    class="bi bi-star fa-fw me-1"></i>Reviews</a></li>
-
-                                        <li><a class="nav-link" href="agent-settings.html"><i
-                                                    class="bi bi-gear fa-fw me-1"></i>Settings</a></li>
-
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="dropdoanMenu"
-                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="bi bi-list-ul fa-fw me-1"></i>Dropdown
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdoanMenu">
-                                                <!-- Dropdown menu -->
-                                                <li><a class="dropdown-item" href="#">Item 1</a></li>
-                                                <li><a class="dropdown-item" href="#">Item 2</a></li>
-                                            </ul>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -258,5 +237,58 @@
         Footer END -->
 
     </section>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Collection Center</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-start" method="POST"
+                          action="{{ route('frontOffice.adminCentreCollecte.storeCentreCollecte') }}">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label class="form-label">Enter name</label>
+                            <x-text-input class="form-control" type="text" name="nom" required/>
+                            <x-input-error :messages="$errors->get('nom')" class="mt-2"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Enter Address</label>
+                            <x-text-input class="form-control" type="text" name="adresse" required/>
+                            <x-input-error :messages="$errors->get('adresse')" class="mt-2"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Enter Capacity (Kg)</label>
+                            <x-text-input class="form-control" type="number" name="capacite" required/>
+                            <x-input-error :messages="$errors->get('capacite')" class="mt-2"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="zone_collecte_id" class="form-label">Collection Area</label>
+                            <select class="form-select" name="zone_collecte_id" required>
+                                <option value="" disabled selected>Select a collection area</option>
+                                @foreach($zoneCollectes as $zone)
+                                    <option value="{{ $zone->id }}">{{ $zone->nom }} : {{ $zone->adresse }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('zone_collecte_id')" class="mt-2"/>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary w-100 mb-0">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @endsection

@@ -1,7 +1,5 @@
 @extends('index')
 
-@section('title', 'EcoCycle - Admin Dashboard')
-
 @section('content')
     <!-- **************** MAIN CONTENT START **************** -->
     <main>
@@ -23,71 +21,6 @@
 
                     <!-- Sidebar menu START -->
                     <ul class="navbar-nav flex-column" id="navbar-sidebar">
-    <!-- Menu item -->
-    <li class="nav-item">
-        <a href="{{ url('/admin/dashboard') }}" class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">Dashboard</a>
-    </li>
-
-    <!-- Title -->
-    <li class="nav-item ms-2 my-2">Pages</li>
-
-    <!-- Menu item with submenu -->
-    <li class="nav-item">
-        <a class="nav-link {{ Request::is('admin/listSociete', 'admin/listChauffeur', 'admin/listAdminCentreCollecte', 'admin/listAdminCentreRecyclage') ? 'active' : '' }}" 
-           data-bs-toggle="collapse" href="#collapsebooking" role="button" aria-expanded="false" aria-controls="collapsebooking">
-            Users
-        </a>
-        <!-- Submenu -->
-        <ul class="nav collapse flex-column {{ Request::is('admin/listSociete', 'admin/listChauffeur', 'admin/listAdminCentreCollecte', 'admin/listAdminCentreRecyclage') ? 'show' : '' }}" 
-            id="collapsebooking" data-bs-parent="#navbar-sidebar">
-            <li class="nav-item"><a class="nav-link {{ Request::is('admin/listSociete') ? 'active' : '' }}" href="{{ url('/admin/listSociete') }}">Company List</a></li>
-            <li class="nav-item"><a class="nav-link {{ Request::is('admin/listChauffeur') ? 'active' : '' }}" href="{{ url('/admin/listChauffeur') }}">Driver List</a></li>
-            <li class="nav-item"><a class="nav-link {{ Request::is('admin/listAdminCentreCollecte') ? 'active' : '' }}" href="{{ url('/admin/listAdminCentreCollecte') }}">Collection Center Admin List</a></li>
-            <li class="nav-item"><a class="nav-link {{ Request::is('admin/listAdminCentreRecyclage') ? 'active' : '' }}" href="{{ url('/admin/listAdminCentreRecyclage') }}">Recycling Center Admin List</a></li>
-        </ul>
-    </li>
-
-    <!-- Menu item -->
-    <li class="nav-item"><a class="nav-link {{ Request::is('admin/listEvenementCommunautaire') ? 'active' : '' }}" href="{{ url('/admin/listEvenementCommunautaire') }}">Community Events List</a></li>
-    <li class="nav-item"><a class="nav-link {{ Request::is('admin/listZone') ? 'active' : '' }}" href="{{ url('/admin/listZone') }}">List Zone</a></li>
-    <li class="nav-item"><a class="nav-link {{ Request::is('admin/listCentreCollecte') ? 'active' : '' }}" href="{{ url('/admin/listCentreCollecte') }}">List Centre de Collecte</a></li>
-
-    <!-- Guests Menu -->
-    <li class="nav-item">
-        <a class="nav-link {{ Request::is('admin-guest-list.html', 'admin-guest-detail.html') ? 'active' : '' }}" 
-           data-bs-toggle="collapse" href="#collapseguest" role="button" aria-expanded="false" aria-controls="collapseguest">
-            Guests
-        </a>
-        <!-- Submenu -->
-        <ul class="nav collapse flex-column {{ Request::is('admin-guest-list.html', 'admin-guest-detail.html') ? 'show' : '' }}" 
-            id="collapseguest" data-bs-parent="#navbar-sidebar">
-            <li class="nav-item"><a class="nav-link {{ Request::is('admin-guest-list.html') ? 'active' : '' }}" href="admin-guest-list.html">Guest List</a></li>
-            <li class="nav-item"><a class="nav-link {{ Request::is('admin-guest-detail.html') ? 'active' : '' }}" href="admin-guest-detail.html">Guest Detail</a></li>
-        </ul>
-    </li>
-
-    <!-- Agents Menu -->
-    <li class="nav-item">
-        <a class="nav-link {{ Request::is('admin-agent-list.html', 'admin-agent-detail.html') ? 'active' : '' }}" 
-           data-bs-toggle="collapse" href="#collapseagent" role="button" aria-expanded="false" aria-controls="collapseagent">
-            Agents
-        </a>
-        <!-- Submenu -->
-        <ul class="nav collapse flex-column {{ Request::is('admin-agent-list.html', 'admin-agent-detail.html') ? 'show' : '' }}" 
-            id="collapseagent" data-bs-parent="#navbar-sidebar">
-            <li class="nav-item"><a class="nav-link {{ Request::is('admin-agent-list.html') ? 'active' : '' }}" href="admin-agent-list.html">Agent List</a></li>
-            <li class="nav-item"><a class="nav-link {{ Request::is('admin-agent-detail.html') ? 'active' : '' }}" href="admin-agent-detail.html">Agent Detail</a></li>
-        </ul>
-    </li>
-
-    <!-- Other links -->
-    <li class="nav-item"><a class="nav-link {{ Request::is('admin-earnings.html') ? 'active' : '' }}" href="admin-earnings.html">Earnings</a></li>
-    <li class="nav-item"><a class="nav-link {{ Request::is('admin-settings.html') ? 'active' : '' }}" href="admin-settings.html">Admin Settings</a></li>
-</ul>
-
-
-                        <!-- Title -->
-                        <li class="nav-item ms-2 my-2">Pages</li>
 
                         <!-- Menu item -->
                         <li class="nav-item">
@@ -107,49 +40,20 @@
 
                         <!-- Menu item -->
                         <li class="nav-item"><a class="nav-link" href="{{url('/admin/listEvenementCommunautaire')}}">Community Events List</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/dechetlist')}}">Dechets</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/typeDechetlist')}}">Type Dechet</a></li>
 
                         <!-- Menu item -->
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#collapseguest" role="button"
-                               aria-expanded="false" aria-controls="collapseguest">
-                                Guests
-                            </a>
-                            <!-- Submenu -->
-                            <ul class="nav collapse flex-column" id="collapseguest" data-bs-parent="#navbar-sidebar">
-                                <li class="nav-item"><a class="nav-link" href="admin-guest-list.html">Guest List</a>
-                                </li>
-                                <li class="nav-item"><a class="nav-link" href="admin-guest-detail.html">Guest Detail</a>
-                                </li>
-                            </ul>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/listZoneCollecte')}}">Collection Areas List</a></li>
 
                         <!-- Menu item -->
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#collapseagent" role="button"
-                               aria-expanded="false" aria-controls="collapseagent">
-                                Agents
-                            </a>
-                            <!-- Submenu -->
-                            <ul class="nav collapse flex-column" id="collapseagent" data-bs-parent="#navbar-sidebar">
-                                <li class="nav-item"><a class="nav-link" href="admin-agent-list.html">Agent List</a>
-                                </li>
-                                <li class="nav-item"><a class="nav-link" href="admin-agent-detail.html">Agent Detail</a>
-                                </li>
-                            </ul>
-                        </li>
-
-
+                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/listTypeDechet')}}">Waste Types List</a></li>
 
                         <!-- Menu item -->
-                        <li class="nav-item"><a class="nav-link" href="admin-earnings.html">Earnings</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/listDemandeDechet')}}">Waste Demand List</a></li>
 
                         <!-- Menu item -->
-                        <li class="nav-item"><a class="nav-link" href="admin-settings.html">Admin Settings</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{url('/admin/listTrips')}}">Trips List</a></li>
 
                     </ul>
-
                     <!-- Sidebar menu end -->
 
                     <!-- Sidebar footer START -->

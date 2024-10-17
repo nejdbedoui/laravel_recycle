@@ -1,7 +1,5 @@
 @extends('index')
 
-@section('title', 'EcoCycle - Home')
-
 @section('content')
 
     <!-- Header START -->

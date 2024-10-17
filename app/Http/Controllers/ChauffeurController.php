@@ -53,7 +53,7 @@ class ChauffeurController extends Controller
 
         $chauffeur->save();
 
-        return redirect()->route('frontOffice.chauffeurProfile.edit')->with('status', 'profile-updated');
+        return redirect()->route('frontOffice.chauffeurProfile.edit')->with('success', 'Profile Updated Successfully');
     }
 
 
@@ -78,4 +78,35 @@ class ChauffeurController extends Controller
 
         return Redirect::to('/');
     }
+
+
+
+    public function getAvailableDrivers(Request $request)
+    {
+        // Valider la date
+        $request->validate([
+            'date' => 'required|date',
+        ]);
+
+        $date = $request->input('date');
+
+        // Utiliser la méthode statique getAvailableDrivers du modèle Chauffeur
+        $chauffeurs = Chauffeur::getAvailableDrivers($date);
+
+        return response()->json($chauffeurs); // Retourner les chauffeurs disponibles en JSON
+    }
+
+    public function getAvailableDriversUpdate(Request $request)
+    {
+        // Récupérer la date sélectionnée et l'ID du déplacement
+        $date = $request->query('date');
+        $deplacementId = $request->query('deplacement_id');
+
+        // Utiliser la méthode pour récupérer les chauffeurs disponibles pour la mise à jour
+        $chauffeursDisponibles = Chauffeur::getAvailableDriversForUpdate($date, $deplacementId);
+
+        // Retourner les chauffeurs disponibles sous forme de JSON pour l'AJAX
+        return response()->json($chauffeursDisponibles);
+    }
+
 }

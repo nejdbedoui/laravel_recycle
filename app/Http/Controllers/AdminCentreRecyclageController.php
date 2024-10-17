@@ -15,7 +15,10 @@ class AdminCentreRecyclageController extends Controller
 {
     public function adminCentreRecyclageDashboard()
     {
-        return view('frontOffice/adminCentreRecyclage/adminCentreRecyclageDashboard');
+        $adminCentreRecyclage = AdminCentreRecyclage::findOrFail(Auth::user()->id);
+        $centreRecyclage = $adminCentreRecyclage->centreRecyclage;
+
+        return view('frontOffice/adminCentreRecyclage/adminCentreRecyclageDashboard', compact('centreRecyclage'));
     }
 
     /**
@@ -23,7 +26,10 @@ class AdminCentreRecyclageController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('frontOffice/adminCentreRecyclage/adminCentreRecyclageProfile', [
+        $adminCentreRecyclage = AdminCentreRecyclage::findOrFail(Auth::user()->id);
+        $centreRecyclage = $adminCentreRecyclage->centreRecyclage;
+
+        return view('frontOffice/adminCentreRecyclage/adminCentreRecyclageProfile', compact('centreRecyclage'), [
             'user' => $request->user(),
         ]);
     }
@@ -53,7 +59,7 @@ class AdminCentreRecyclageController extends Controller
 
         $adminCentreRecyclage->save();
 
-        return redirect()->route('frontOffice.adminCentreRecyclageProfile.edit')->with('status', 'profile-updated');
+        return redirect()->route('frontOffice.adminCentreRecyclageProfile.edit')->with('success', 'Profile Updated Successfully');
     }
 
 

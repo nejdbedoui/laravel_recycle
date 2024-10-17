@@ -2,111 +2,125 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CentreCollecte;
+use App\Models\AdminCentreCollecte;
 use App\Models\Dechet;
 use App\Models\TypeDechet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DechetController extends Controller
 {
     /**
-     * Afficher la liste de tous les déchets.
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $dechets = Dechet::all(); // Récupère tous les enregistrements de déchets
-        $typesDechets = TypeDechet::all(); // Récupère tous les types de déchets
-        $centreCollecte = CentreCollecte::all(); // Récupère tous les centres de collecte
-        return view('backOffice.listDechets', compact('dechets', 'typesDechets', 'centreCollecte')); // Passe toutes les variables à la vue
+        //
     }
 
     /**
-     * Afficher le formulaire pour créer un nouveau déchet.
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        $typesDechets = TypeDechet::all(); // Récupère tous les types de déchets
-        $centreCollecte = CentreCollecte::all(); // Récupère tous les centres de collecte
-        return view('backOffice.createDechet', compact('typesDechets', 'centreCollecte')); // Passe les types et centres à la vue
+        return view('frontOffice.adminCentreCollecte.detailCentreCollecte');
     }
 
     /**
-     * Stocker un nouveau déchet dans la base de données.
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nom' => 'required|string|max:255',
-            'quantite' => 'required|integer',
+            'quantite' => 'required|integer|min:1',
             'type_dechet_id' => 'required|exists:type_dechets,id',
-            'centre_collecte_id' => 'required|exists:centre_collectes,id', // Validation pour le centre de collecte
-            'etat' => 'required|boolean',
         ]);
+
+        $adminCentreCollecte = AdminCentreCollecte::findOrFail(Auth::user()->id);
+        $centreCollecte = $adminCentreCollecte->centreCollecte;
 
         Dechet::create([
-            'nom' => $request->nom,
-            'quantite' => $request->quantite,
-            'type_dechet_id' => $request->type_dechet_id,
-            'centre_collecte_id' => $request->centre_collecte_id, // Enregistrement du centre de collecte
-            'etat' => $request->etat,
+            'nom' => $validated['nom'],
+            'quantite' => $validated['quantite'],
+            'centre_collecte_id' => $centreCollecte->id,
+            'type_dechet_id' => $validated['type_dechet_id'],
         ]);
 
-        return redirect()->route('backOffice.listDechet')->with('success', 'Déchet ajouté avec succès.');
+        return redirect()->route('frontOffice.adminCentreCollecte.detailCentreCollecte')->with('success', 'Waste created successfully.');
     }
 
     /**
-     * Afficher un déchet spécifique.
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $dechet = Dechet::findOrFail($id);
-        return view('backOffice.detailDechet', compact('dechet'));
+        //
     }
 
     /**
-     * Afficher le formulaire d'édition d'un déchet.
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $dechet = Dechet::findOrFail($id); // Récupère le déchet à modifier
-        $typesDechets = TypeDechet::all(); // Récupère tous les types de déchets
-        $centreCollecte = CentreCollecte::all(); // Récupère tous les centres de collecte
-        return view('backOffice.editDechet', compact('dechet', 'typesDechets', 'centreCollecte')); // Passe les données à la vue
+        $dechet = Dechet::findOrFail($id);
+        return view('frontOffice.adminCentreCollecte.detailCentreCollecte', compact('dechet'));
     }
 
     /**
-     * Mettre à jour un déchet existant dans la base de données.
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nom' => 'required|string|max:255',
-            'quantite' => 'required|integer',
+            'quantite' => 'required|integer|min:1',
             'type_dechet_id' => 'required|exists:type_dechets,id',
-            'centre_collecte_id' => 'required|exists:centre_collectes,id', // Validation pour le centre de collecte
-            'etat' => 'required|boolean',
         ]);
+
+        $adminCentreCollecte = AdminCentreCollecte::findOrFail(Auth::user()->id);
+        $centreCollecte = $adminCentreCollecte->centreCollecte;
 
         $dechet = Dechet::findOrFail($id);
+
         $dechet->update([
-            'nom' => $request->nom,
-            'quantite' => $request->quantite,
-            'type_dechet_id' => $request->type_dechet_id,
-            'centre_collecte_id' => $request->centre_collecte_id, // Mise à jour du centre de collecte
-            'etat' => $request->etat,
+            'nom' => $validated['nom'],
+            'quantite' => $validated['quantite'],
+            'centre_collecte_id' => $centreCollecte->id,
+            'type_dechet_id' => $validated['type_dechet_id'],
         ]);
 
-        return redirect()->route('backOffice.listDechet')->with('success', 'Déchet mis à jour avec succès.');
+        return redirect()->route('frontOffice.adminCentreCollecte.detailCentreCollecte')->with('success', 'Waste updated successfully.');
     }
 
     /**
-     * Supprimer un déchet de la base de données.
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $dechet = Dechet::findOrFail($id);
         $dechet->delete();
 
-        return redirect()->route('backOffice.listDechet')->with('success', 'Déchet supprimé avec succès.');
+        return redirect()->route('frontOffice.adminCentreCollecte.detailCentreCollecte')->with('success', 'Waste successfully deleted.');
     }
 }

@@ -7,8 +7,16 @@ use App\Http\Controllers\ChauffeurController;
 use App\Http\Controllers\SocieteController;
 use App\Http\Controllers\EvenementCommunautaireController;
 use App\Http\Controllers\CommentaireController;
-use App\Http\Controllers\DechetController;
+use App\Http\Controllers\ZoneCollecteController;
 use App\Http\Controllers\TypeDechetController;
+use App\Http\Controllers\CentreCollecteController;
+use App\Http\Controllers\CentreRecyclageController;
+use App\Http\Controllers\DechetController;
+use App\Http\Controllers\MatierePremiereController;
+use App\Http\Controllers\TypeRecyclageController;
+use App\Http\Controllers\DemandeMatierePremiereController;
+use App\Http\Controllers\DemandeDechetController;
+use App\Http\Controllers\DeplacementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,11 +31,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
-
 Route::get('/', [EvenementCommunautaireController::class, 'index'])->name('home.home');
 Route::get('/detailEvenementCommunautaire/{id}', [EvenementCommunautaireController::class, 'show'])->name('home.detailEvenementCommunautaire');
 Route::post('/addCommentaire/{evenementId}', [CommentaireController::class, 'store'])->name('home.storeCommentaire');
+
+Route::get('/getAvailableDrivers', [ChauffeurController::class, 'getAvailableDrivers']);
+Route::get('/getAvailableDriversUpdate', [ChauffeurController::class, 'getAvailableDriversUpdate']);
+
 
 Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/', [AdminController::class, 'adminDashboard'])->name('backOffice.adminDashboard');
@@ -65,59 +75,27 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'role:admin'])->group(fu
 
     Route::delete('/deleteCommentaire/{id}', [CommentaireController::class, 'destroy'])->name('backOffice.deleteCommentaire');
 
+    Route::post('/addZoneCollecte', [ZoneCollecteController::class, 'store'])->name('backOffice.storeZoneCollecte');
+    Route::get('/listZoneCollecte', [ZoneCollecteController::class, 'index'])->name('backOffice.listZoneCollecte');
+    Route::get('/detailZoneCollecte/{id}', [ZoneCollecteController::class, 'show'])->name('backOffice.detailZoneCollecte');
+    Route::get('/editZoneCollecte/{id}', [ZoneCollecteController::class, 'edit'])->name('backOffice.editZoneCollecte');
+    Route::put('/updateZoneCollecte/{id}', [ZoneCollecteController::class, 'update'])->name('backOffice.updateZoneCollecte');
+    Route::delete('/deleteZoneCollecte/{id}', [ZoneCollecteController::class, 'destroy'])->name('backOffice.deleteZoneCollecte');
+    Route::post('/assignChauffeurs/{id}', [ZoneCollecteController::class, 'assignChauffeursToZone'])->name('backOffice.assignChauffeursToZone');
+    Route::post('/unassignChauffeurs/{id}', [ZoneCollecteController::class, 'unassignChauffeursFromZone'])->name('backOffice.unassignChauffeursFromZone');
 
+    Route::post('/addTypeDechet', [TypeDechetController::class, 'store'])->name('backOffice.storeTypeDechet');
+    Route::get('/listTypeDechet', [TypeDechetController::class, 'index'])->name('backOffice.listTypeDechet');
+    Route::get('/editTypeDechet/{id}', [TypeDechetController::class, 'edit'])->name('backOffice.editTypeDechet');
+    Route::put('/updateTypeDechet/{id}', [TypeDechetController::class, 'update'])->name('backOffice.updateTypeDechet');
+    Route::delete('/deleteTypeDechet/{id}', [TypeDechetController::class, 'destroy'])->name('backOffice.deleteTypeDechet');
 
-// Routes CRUD pour les Déchets
+    Route::get('/listDemandeDechet', [DemandeDechetController::class, 'index'])->name('backOffice.listDemandeDechet');
 
-    Route::get('/dechetlist', [DechetController::class, 'index'])->name('backOffice.listDechet');
-
-    // Afficher le formulaire d'ajout de déchet
-    Route::get('/dechetcreate', [DechetController::class, 'create'])->name('backOffice.createDechet');
-
-    // Ajouter un nouveau déchet
-    Route::post('/dechetstore', [DechetController::class, 'store'])->name('backOffice.storeDechet');
-
-    // Afficher le formulaire d'édition d'un déchet existant
-    Route::get('/dechetedit/{id}', [DechetController::class, 'edit'])->name('backOffice.editDechet');
-
-    // Mettre à jour un déchet existant
-    Route::put('/dechetupdate/{id}', [DechetController::class, 'update'])->name('backOffice.updateDechet');
-
-    // Supprimer un déchet
-    Route::delete('/dechetdelete/{id}', [DechetController::class, 'destroy'])->name('backOffice.deleteDechet');
-    // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
-
-
-
-    // Routes CRUD pour les Types de Déchets
-    Route::get('/typeDechetlist', [TypeDechetController::class, 'index'])->name('backOffice.listTypeDechet');
-
-// Afficher le formulaire d'ajout de type de déchet
-    Route::get('/typeDechetcreate', [TypeDechetController::class, 'create'])->name('backOffice.createTypeDechet');
-
-// Ajouter un nouveau type de déchet
-    Route::post('/typeDechetstore', [TypeDechetController::class, 'store'])->name('backOffice.storeTypeDechet');
-
-// Afficher le formulaire d'édition d'un type de déchet existant
-    Route::get('/typeDechetedit/{id}', [TypeDechetController::class, 'edit'])->name('backOffice.editTypeDechet');
-
-// Mettre à jour un type de déchet existant
-    Route::put('/typeDechetupdate/{id}', [TypeDechetController::class, 'update'])->name('backOffice.updateTypeDechet');
-
-// Supprimer un type de déchet
-    Route::delete('/typeDechetdelete/{id}', [TypeDechetController::class, 'destroy'])->name('backOffice.deleteTypeDechet');
-
-
-    Route::post('/addZone', [AdminController::class, 'addZone'])->name('backOffice.addZone');
-    Route::get('/listZone', [AdminController::class, 'listZone'])->name('backOffice.listZone');
-    Route::get('/detailZone/{id}', [AdminController::class, 'detailZone'])->name('backOffice.detailZone');
-    Route::post('/deleteZone/{id}', [AdminController::class, 'deletezone'])->name('zone.delete');
-    
-    Route::post('/addCentreCollecte', [AdminController::class, 'addCentreCollecte'])->name('backOffice.addCentreCollecte');
-    Route::get('/listCentreCollecte', [AdminController::class, 'listCentreCollecte'])->name('backOffice.listCentreCollecte');
-    Route::get('/detailCentreCollecte{id}', [AdminController::class, 'detailCentreCollecte'])->name('backOffice.detailCentreCollecte');
-    Route::post('/deleteCentreCollecte/{id}', [AdminController::class, 'deleteCentreCollecte'])->name('CentreCollecte.delete');
-    
+    Route::get('/listTrips', [DeplacementController::class, 'index'])->name('backOffice.listTrips');
+    Route::post('/addTrip/{demandeDechetId}', [DeplacementController::class, 'store'])->name('backOffice.storeTrip');
+    Route::put('/updateTrip/{id}', [DeplacementController::class, 'update'])->name('backOffice.updateTrip');
+    Route::delete('/deleteTrip/{id}', [DeplacementController::class, 'destroy'])->name('backOffice.deleteTrip');
 
 });
 
@@ -130,7 +108,26 @@ Route::prefix('adminCentreCollecte')->middleware(['auth', 'verified', 'role:admi
         Route::delete('/profile', [AdminCentreCollecteController::class, 'destroy'])->name('frontOffice.adminCentreCollecteProfile.destroy');
     });
 
-    // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
+    Route::post('/addCentreCollecte', [CentreCollecteController::class, 'store'])->name('frontOffice.adminCentreCollecte.storeCentreCollecte');
+    Route::get('/listCentreCollecte', [CentreCollecteController::class, 'index'])->name('frontOffice.adminCentreCollecte.listCentreCollecte');
+    Route::get('/detailCentreCollecte', [CentreCollecteController::class, 'show'])->name('frontOffice.adminCentreCollecte.detailCentreCollecte');
+    Route::get('/editCentreCollecte/{id}', [CentreCollecteController::class, 'edit'])->name('frontOffice.adminCentreCollecte.editCentreCollecte');
+    Route::put('/updateCentreCollecte/{id}', [CentreCollecteController::class, 'update'])->name('frontOffice.adminCentreCollecte.updateCentreCollecte');
+    Route::delete('/deleteCentreCollecte/{id}', [CentreCollecteController::class, 'destroy'])->name('frontOffice.adminCentreCollecte.deleteCentreCollecte');
+
+    Route::get('/listTypeDechet', [TypeDechetController::class, 'indexAdminCentreCollecte'])->name('frontOffice.adminCentreCollecte.listTypeDechet');
+
+    Route::post('/addDechet', [DechetController::class, 'store'])->name('frontOffice.adminCentreCollecte.storeDechet');
+    Route::get('/listDechet', [DechetController::class, 'index'])->name('frontOffice.adminCentreCollecte.listDechet');
+    Route::get('/detailDechet', [DechetController::class, 'show'])->name('frontOffice.adminCentreCollecte.detailDechet');
+    Route::get('/editDechet/{id}', [DechetController::class, 'edit'])->name('frontOffice.adminCentreCollecte.editDechet');
+    Route::put('/updateDechet/{id}', [DechetController::class, 'update'])->name('frontOffice.adminCentreCollecte.updateDechet');
+    Route::delete('/deleteDechet/{id}', [DechetController::class, 'destroy'])->name('frontOffice.adminCentreCollecte.deleteDechet');
+
+    Route::get('/listDemandeDechet', [DemandeDechetController::class, 'indexForAdminCentreCollecte'])->name('frontOffice.adminCentreCollecte.listDemandeDechet');
+    Route::put('/confirmDemandeDechet/{id}', [DemandeDechetController::class, 'confirmDemandeDechet'])->name('frontOffice.adminCentreCollecte.confirmDemandeDechet');
+
+    Route::get('/listTrips', [DeplacementController::class, 'indexForAdminCentreCollecte'])->name('frontOffice.adminCentreCollecte.listTrips');
 });
 
 Route::prefix('adminCentreRecyclage')->middleware(['auth', 'verified', 'role:adminCentreRecyclage'])->group(function () {
@@ -142,7 +139,39 @@ Route::prefix('adminCentreRecyclage')->middleware(['auth', 'verified', 'role:adm
         Route::delete('/profile', [AdminCentreRecyclageController::class, 'destroy'])->name('frontOffice.adminCentreRecyclageProfile.destroy');
     });
 
-    // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
+    Route::post('/addCentreRecyclage', [CentreRecyclageController::class, 'store'])->name('frontOffice.adminCentreRecyclage.storeCentreRecyclage');
+    Route::get('/listCentreRecyclage', [CentreRecyclageController::class, 'index'])->name('frontOffice.adminCentreRecyclage.listCentreRecyclage');
+    Route::get('/detailCentreRecyclage', [CentreRecyclageController::class, 'show'])->name('frontOffice.adminCentreRecyclage.detailCentreRecyclage');
+    Route::get('/editCentreRecyclage/{id}', [CentreRecyclageController::class, 'edit'])->name('frontOffice.adminCentreRecyclage.editCentreRecyclage');
+    Route::put('/updateCentreRecyclage/{id}', [CentreRecyclageController::class, 'update'])->name('frontOffice.adminCentreRecyclage.updateCentreRecyclage');
+    Route::delete('/deleteCentreRecyclage/{id}', [CentreRecyclageController::class, 'destroy'])->name('frontOffice.adminCentreRecyclage.deleteCentreRecyclage');
+
+    Route::post('/addMatierePremiere', [MatierePremiereController::class, 'store'])->name('frontOffice.adminCentreRecyclage.storeMatierePremiere');
+    Route::get('/listMatierePremiere', [MatierePremiereController::class, 'index'])->name('frontOffice.adminCentreRecyclage.listMatierePremiere');
+    Route::get('/detailMatierePremiere', [MatierePremiereController::class, 'show'])->name('frontOffice.adminCentreRecyclage.detailMatierePremiere');
+    Route::get('/editMatierePremiere/{id}', [MatierePremiereController::class, 'edit'])->name('frontOffice.adminCentreRecyclage.editMatierePremiere');
+    Route::put('/updateMatierePremiere/{id}', [MatierePremiereController::class, 'update'])->name('frontOffice.adminCentreRecyclage.updateMatierePremiere');
+    Route::delete('/deleteMatierePremiere/{id}', [MatierePremiereController::class, 'destroy'])->name('frontOffice.adminCentreRecyclage.deleteMatierePremiere');
+
+    Route::post('/addTypeRecyclage', [TypeRecyclageController::class, 'store'])->name('frontOffice.adminCentreRecyclage.storeTypeRecyclage');
+    Route::get('/listTypeRecyclage', [TypeRecyclageController::class, 'index'])->name('frontOffice.adminCentreRecyclage.listTypeRecyclage');
+    Route::get('/detailTypeRecyclage', [TypeRecyclageController::class, 'show'])->name('frontOffice.adminCentreRecyclage.detailTypeRecyclage');
+    Route::get('/editTypeRecyclage/{id}', [TypeRecyclageController::class, 'edit'])->name('frontOffice.adminCentreRecyclage.editTypeRecyclage');
+    Route::put('/updateTypeRecyclage/{id}', [TypeRecyclageController::class, 'update'])->name('frontOffice.adminCentreRecyclage.updateTypeRecyclage');
+    Route::delete('/deleteTypeRecyclage/{id}', [TypeRecyclageController::class, 'destroy'])->name('frontOffice.adminCentreRecyclage.deleteTypeRecyclage');
+
+    Route::get('/listCentreCollecte', [CentreCollecteController::class, 'indexForAdminCentreRecyclage'])->name('frontOffice.adminCentreRecyclage.listCentreCollecte');
+    Route::get('/detailCentreCollecte/{idt}', [CentreCollecteController::class, 'showForAdminCentreRecyclage'])->name('frontOffice.adminCentreRecyclage.detailCentreCollecte');
+
+    Route::get('/listDemandeMatierePremiere', [DemandeMatierePremiereController::class, 'indexForAdminCentreRecyclage'])->name('frontOffice.adminCentreRecyclage.listDemandeMatierePremiere');
+    Route::put('/confirmDemandeMatierePremiere/{id}', [DemandeMatierePremiereController::class, 'confirmDemandeMatierePremiere'])->name('frontOffice.adminCentreRecyclage.confirmDemandeMatierePremiere');
+
+    Route::post('/addDemandeDechet', [DemandeDechetController::class, 'store'])->name('frontOffice.adminCentreRecyclage.storeDemandeDechet');
+    Route::get('/listDemandeDechet', [DemandeDechetController::class, 'indexForAdminCentreRecyclage'])->name('frontOffice.adminCentreRecyclage.listDemandeDechet');
+    Route::put('/updateDemandeDechet/{id}', [DemandeDechetController::class, 'update'])->name('frontOffice.adminCentreRecyclage.updateDemandeDechet');
+    Route::delete('/deleteDemandeDechet/{id}', [DemandeDechetController::class, 'destroy'])->name('frontOffice.adminCentreRecyclage.deleteDemandeDechet');
+
+    Route::get('/listTrips', [DeplacementController::class, 'indexForAdminCentreRecyclage'])->name('frontOffice.adminCentreRecyclage.listTrips');
 });
 
 Route::prefix('chauffeur')->middleware(['auth', 'verified', 'role:chauffeur'])->group(function () {
@@ -154,7 +183,10 @@ Route::prefix('chauffeur')->middleware(['auth', 'verified', 'role:chauffeur'])->
         Route::delete('/profile', [ChauffeurController::class, 'destroy'])->name('frontOffice.chauffeurProfile.destroy');
     });
 
-    // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
+    Route::get('/listZoneCollecte', [ZoneCollecteController::class, 'listForChauffeur'])->name('frontOffice.chauffeur.listZoneCollecte');
+
+    Route::get('/listTrips', [DeplacementController::class, 'indexForChauffeur'])->name('frontOffice.chauffeur.listTrips');
+    Route::put('/deliveredDeplacement/{id}', [DeplacementController::class, 'deliveredDeplacement'])->name('frontOffice.chauffeur.deliveredDeplacement');
 });
 
 Route::prefix('societe')->middleware(['auth', 'verified', 'role:societe'])->group(function () {
@@ -166,7 +198,13 @@ Route::prefix('societe')->middleware(['auth', 'verified', 'role:societe'])->grou
         Route::delete('/profile', [SocieteController::class, 'destroy'])->name('frontOffice.societeProfile.destroy');
     });
 
-    // Route::get('/child1', [ChildController::class, 'child1'])->name('admin.child1');
+    Route::get('/listCentreRecyclage', [CentreRecyclageController::class, 'indexForCompany'])->name('frontOffice.societe.listCentreRecyclage');
+    Route::get('/detailCentreRecyclage/{id}', [CentreRecyclageController::class, 'showForCompany'])->name('frontOffice.societe.detailCentreRecyclage');
+
+    Route::post('/addDemandeMatierePremiere', [DemandeMatierePremiereController::class, 'store'])->name('frontOffice.societe.storeDemandeMatierePremiere');
+    Route::get('/listDemandeMatierePremiere', [DemandeMatierePremiereController::class, 'indexForCompany'])->name('frontOffice.societe.listDemandeMatierePremiere');
+    Route::put('/updateDemandeMatierePremiere/{id}', [DemandeMatierePremiereController::class, 'update'])->name('frontOffice.societe.updateDemandeMatierePremiere');
+    Route::delete('/deleteDemandeMatierePremiere/{id}', [DemandeMatierePremiereController::class, 'destroy'])->name('frontOffice.societe.deleteDemandeMatierePremiere');
 });
 
 require __DIR__.'/auth.php';

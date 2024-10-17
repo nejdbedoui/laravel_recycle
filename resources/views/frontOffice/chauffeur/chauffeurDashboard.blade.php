@@ -1,7 +1,5 @@
 @extends('index')
 
-@section('title', 'EcoCycle - Driver Dashboard')
-
 @section('content')
 
     <section>
@@ -162,38 +160,10 @@
                                 <div class="navbar navbar-expand-xl">
                                     <ul class="navbar-nav navbar-offcanvas-menu">
 
-                                        <li class="nav-item"><a class="nav-link active" href="agent-dashboard.html"><i
-                                                    class="bi bi-house-door fa-fw me-1"></i>Dashboard</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ url ('/chauffeur/listZoneCollecte') }}"><i class="bi bi-buildings fa-fw me-1"></i>Collection Areas List</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-listings.html"><i
-                                                    class="bi bi-journals fa-fw me-1"></i>Listings</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ url ('/chauffeur/listTrips') }}"><i class="bi bi-truck fa-fw me-1"></i>Trips List</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-bookings.html"><i
-                                                    class="bi bi-bookmark-heart fa-fw me-1"></i>Bookings</a></li>
-
-                                        <li class="nav-item"><a class="nav-link" href="agent-activities.html"><i
-                                                    class="bi bi-bell fa-fw me-1"></i>Activities</a></li>
-
-                                        <li class="nav-item"><a class="nav-link" href="agent-earnings.html"><i
-                                                    class="bi bi-graph-up-arrow fa-fw me-1"></i>Earnings</a></li>
-
-                                        <li class="nav-item"><a class="nav-link" href="agent-reviews.html"><i
-                                                    class="bi bi-star fa-fw me-1"></i>Reviews</a></li>
-
-                                        <li><a class="nav-link" href="agent-settings.html"><i
-                                                    class="bi bi-gear fa-fw me-1"></i>Settings</a></li>
-
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="dropdoanMenu"
-                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="bi bi-list-ul fa-fw me-1"></i>Dropdown
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdoanMenu">
-                                                <!-- Dropdown menu -->
-                                                <li><a class="dropdown-item" href="#">Item 1</a></li>
-                                                <li><a class="dropdown-item" href="#">Item 2</a></li>
-                                            </ul>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>

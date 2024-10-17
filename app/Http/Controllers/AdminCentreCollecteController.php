@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserProfileUpdateRequest;
 use App\Models\AdminCentreCollecte;
+use App\Models\ZoneCollecte;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,12 @@ class AdminCentreCollecteController extends Controller
 {
     public function adminCentreCollecteDashboard()
     {
-        return view('frontOffice/adminCentreCollecte/adminCentreCollecteDashboard');
+        $adminCentreCollecte = AdminCentreCollecte::findOrFail(Auth::user()->id);
+        $centreCollecte = $adminCentreCollecte->centreCollecte;
+
+        $zoneCollectes = ZoneCollecte::all();
+
+        return view('frontOffice/adminCentreCollecte/adminCentreCollecteDashboard', compact('centreCollecte', 'zoneCollectes'));
     }
 
     /**
@@ -24,7 +30,12 @@ class AdminCentreCollecteController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('frontOffice/adminCentreCollecte/adminCentreCollecteProfile', [
+        $adminCentreCollecte = AdminCentreCollecte::findOrFail(Auth::user()->id);
+        $centreCollecte = $adminCentreCollecte->centreCollecte;
+
+        $zoneCollectes = ZoneCollecte::whereDoesntHave('centreCollecte')->get();
+
+        return view('frontOffice/adminCentreCollecte/adminCentreCollecteProfile', compact('centreCollecte', 'zoneCollectes'), [
             'user' => $request->user(),
         ]);
     }
@@ -54,7 +65,7 @@ class AdminCentreCollecteController extends Controller
 
         $adminCentreCollecte->save();
 
-        return redirect()->route('frontOffice.adminCentreCollecteProfile.edit')->with('status', 'profile-updated');
+        return redirect()->route('frontOffice.adminCentreCollecteProfile.edit')->with('success', 'Profile Updated Successfully');
     }
 
 

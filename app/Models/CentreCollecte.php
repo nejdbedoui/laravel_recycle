@@ -9,7 +9,7 @@ class CentreCollecte extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'adresse', 'capacite', 'zone_collecte_id'];
+    protected $fillable = ['nom', 'adresse', 'capacite', 'zone_collecte_id', 'admin_centre_collecte_id'];
 
     // Relation One-to-One inverse avec ZoneCollecte
     public function zoneCollecte()

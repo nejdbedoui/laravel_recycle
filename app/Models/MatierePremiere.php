@@ -9,7 +9,7 @@ class MatierePremiere extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'quantite'];
+    protected $fillable = ['nom', 'quantite', 'centre_recyclage_id'];
 
     protected $table = 'matiere_premieres';
 

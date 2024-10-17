@@ -11,7 +11,7 @@ class Deplacement extends Model
 
     protected $table = 'deplacements';
 
-    protected $fillable = ['date', 'etat'];
+    protected $fillable = ['date', 'etat', 'chauffeur_id', 'demande_dechet_id'];
 
     // Relation Many-to-One avec Chauffeur
     public function chauffeur()
@@ -22,6 +22,6 @@ class Deplacement extends Model
     // Relation One-to-One avec DemandeDechet
     public function demandeDechet()
     {
-        return $this->hasOne(DemandeDechet::class);
+        return $this->belongsTo(DemandeDechet::class);
     }
 }

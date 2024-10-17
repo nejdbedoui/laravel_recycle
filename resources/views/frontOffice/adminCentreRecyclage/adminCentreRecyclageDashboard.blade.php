@@ -1,7 +1,5 @@
 @extends('index')
 
-@section('title', 'EcoCycle - Driver Dashboard')
-
 @section('content')
 
     <section>
@@ -139,6 +137,9 @@
                                 <img class="avatar-img rounded-circle" src="{{ asset('storage/' . Auth::user()->image) }}" alt="">
                             </div>
                             <h4 class="mb-2 mb-sm-0 ms-sm-3"><span class="fw-light">Hi</span> {{ Auth::user()->name }}</h4>
+                            @if(is_null($centreRecyclage))
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-sm btn-primary-soft mb-0 ms-auto flex-shrink-0"><i class="bi bi-plus-lg fa-fw me-2"></i>Add Recyclage Center</a>
+                            @endif
                         </div>
                         <!-- Avatar and info START -->
 
@@ -162,38 +163,18 @@
                                 <div class="navbar navbar-expand-xl">
                                     <ul class="navbar-nav navbar-offcanvas-menu">
 
-                                        <li class="nav-item"><a class="nav-link active" href="agent-dashboard.html"><i
-                                                    class="bi bi-house-door fa-fw me-1"></i>Dashboard</a></li>
+                                        @if(!is_null($centreRecyclage))
+                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/detailCentreRecyclage') }}"><i class="bi bi-house-door fa-fw me-1"></i>Recycling Center</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-listings.html"><i
-                                                    class="bi bi-journals fa-fw me-1"></i>Listings</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/listDemandeMatierePremiere') }}"><i class="bi bi-database fa-fw me-1"></i>Raw Material Demand List</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-bookings.html"><i
-                                                    class="bi bi-bookmark-heart fa-fw me-1"></i>Bookings</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/listCentreCollecte') }}"><i class="bi bi-buildings fa-fw me-1"></i>Collection Center List</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-activities.html"><i
-                                                    class="bi bi-bell fa-fw me-1"></i>Activities</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/listDemandeDechet') }}"><i class="bi bi-trash fa-fw me-1"></i>Waste Demand List</a></li>
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-earnings.html"><i
-                                                    class="bi bi-graph-up-arrow fa-fw me-1"></i>Earnings</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/listTrips') }}"><i class="bi bi-truck fa-fw me-1"></i>Trips List</a></li>
+                                        @endif
 
-                                        <li class="nav-item"><a class="nav-link" href="agent-reviews.html"><i
-                                                    class="bi bi-star fa-fw me-1"></i>Reviews</a></li>
-
-                                        <li><a class="nav-link" href="agent-settings.html"><i
-                                                    class="bi bi-gear fa-fw me-1"></i>Settings</a></li>
-
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="dropdoanMenu"
-                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="bi bi-list-ul fa-fw me-1"></i>Dropdown
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdoanMenu">
-                                                <!-- Dropdown menu -->
-                                                <li><a class="dropdown-item" href="#">Item 1</a></li>
-                                                <li><a class="dropdown-item" href="#">Item 2</a></li>
-                                            </ul>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -258,5 +239,46 @@
         Footer END -->
 
     </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Recycling Center</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="text-start" method="POST"
+                          action="{{ route('frontOffice.adminCentreRecyclage.storeCentreRecyclage') }}">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label class="form-label">Enter name</label>
+                            <x-text-input class="form-control" type="text" name="nom" required/>
+                            <x-input-error :messages="$errors->get('nom')" class="mt-2"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Enter Address</label>
+                            <x-text-input class="form-control" type="text" name="adresse" required/>
+                            <x-input-error :messages="$errors->get('adresse')" class="mt-2"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Enter Capacity (Kg)</label>
+                            <x-text-input class="form-control" type="number" name="capacite" required/>
+                            <x-input-error :messages="$errors->get('capacite')" class="mt-2"/>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary w-100 mb-0">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @endsection

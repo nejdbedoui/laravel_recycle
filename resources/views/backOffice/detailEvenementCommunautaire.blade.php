@@ -1,7 +1,5 @@
 @extends('backOffice.adminDashboard')
 
-@section('title', 'EcoCycle - Community Events Detail')
-
 @section('dashboard-content')
 
     <div class="page-content-wrapper p-xxl-4">

@@ -43,7 +43,6 @@ class EvenementCommunautaireController extends Controller
      */
     public function store(Request $request)
     {
-        // Valider les données du formulaire
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'required|string',
@@ -55,7 +54,6 @@ class EvenementCommunautaireController extends Controller
             $imagePath = $request->file('image')->store('evenement_images', 'public');
         }
 
-        // Créer un nouvel événement communautaire
         EvenementCommunautaire::create([
             'nom' => $validated['nom'],
             'description' => $validated['description'],
@@ -63,7 +61,6 @@ class EvenementCommunautaireController extends Controller
             'image' => $imagePath,
         ]);
 
-        // Rediriger avec un message de succès
         return redirect()->route('backOffice.listEvenementCommunautaire')->with('success', 'Event created successfully.');
     }
 
