@@ -1,0 +1,78 @@
+name: Laravel CI
+
+on:
+  push:
+    branches:
+      - main 
+      - "*"
+  pull_request:
+    branches:
+      - "*"  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env: 
+      APP_KEY: base64:S6cwOxUXibYh+JuIf2fJFGKJdh6j1DuNfwWYGqu8f/U=
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, bcmath, gd, curl
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run Laravel Pint
+        run: composer exec pint
+
+      #- name: Run PHPStan
+        #run: composer exec phpstan analyse
+
+      - name: Run Tests
+        run: php artisan test
+
+  sonarqube-analysis:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  push_to_registry:
+      name: Push Docker image to Docker Hub
+      runs-on: ubuntu-latest
+      needs: sonarqube-analysis
+      steps:
+        - name: Check out the repo
+          uses: actions/checkout@v4
+
+        - name: Log in to Docker Hub
+          uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+
+        - name: Extract metadata (tags, labels) for Docker
+          id: meta
+          uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+          with:
+            images: ezui7/nejd
+
+        - name: Build and push Docker image
+          uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+          with:
+            context: .
+            file: ./Dockerfile
+            push: true
+            tags: ezui7/nejd:laravel_recycle 
+            labels: ${{ steps.meta.outputs.labels }}
