@@ -1,99 +1,138 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Models\AdminCentreCollecte;
 use App\Models\TypeDechet;
+use App\Models\ZoneCollecte;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TypeDechetController extends Controller
 {
-/**
-* Afficher la liste de tous les types de déchets.
-*/
-public function index()
-{
-$typesDechets = TypeDechet::all(); // Récupère tous les types de déchets
-return view('backOffice.listTypeDechet', compact('typesDechets')); // Passe les types à la vue
-}
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $typesDechets = TypeDechet::all();
+        return view('backOffice.listTypeDechet', compact('typesDechets'));
+    }
 
-/**
-* Afficher le formulaire pour créer un nouveau type de déchet.
-*/
-public function create()
-{
-return view('backOffice.createTypeDechet'); // Affiche le formulaire de création
-}
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexAdminCentreCollecte()
+    {
+        $adminCentreCollecte = AdminCentreCollecte::findOrFail(Auth::user()->id);
+        $centreCollecte = $adminCentreCollecte->centreCollecte;
 
-/**
-* Stocker un nouveau type de déchet dans la base de données.
-*/
-public function store(Request $request)
-{
-$request->validate([
-'nom' => 'required|string|max:255',
-'description' => 'nullable|string|max:500',
-'recyclable' => 'required|boolean',
-'dangereux' => 'required|boolean',
-]);
+        $typesDechets = TypeDechet::all();
+        $zoneCollectes = ZoneCollecte::whereDoesntHave('centreCollecte')->get();
 
-TypeDechet::create([
-'nom' => $request->nom,
-'description' => $request->description,
-'recyclable' => $request->recyclable,
-'dangereux' => $request->dangereux,
-]);
+        return view('frontOffice.adminCentreCollecte.listTypeDechet', compact('typesDechets', 'centreCollecte', 'zoneCollectes'));
+    }
 
-return redirect()->route('backOffice.listTypeDechet')->with('success', 'Type de déchet ajouté avec succès.');
-}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('backOffice.listTypeDechet');
+    }
 
-/**
-* Afficher un type de déchet spécifique.
-*/
-public function show($id)
-{
-$typeDechet = TypeDechet::findOrFail($id);
-return view('backOffice.detailTypeDechet', compact('typeDechet')); // Affiche les détails
-}
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'recyclable' => 'required|string',
+            'dangereux' => 'required|string',
+        ]);
 
-/**
-* Afficher le formulaire d'édition d'un type de déchet.
-*/
-public function edit($id)
-{
-$typeDechet = TypeDechet::findOrFail($id); // Récupère le type à modifier
-return view('backOffice.editTypeDechet', compact('typeDechet')); // Passe le type à la vue
-}
+        TypeDechet::create([
+            'nom' => $request->nom,
+            'description' => $request->description,
+            'recyclable' => $request->recyclable,
+            'dangereux' => $request->dangereux,
+        ]);
 
-/**
-* Mettre à jour un type de déchet existant dans la base de données.
-*/
-public function update(Request $request, $id)
-{
-$request->validate([
-'nom' => 'required|string|max:255',
-'description' => 'nullable|string|max:500',
-'recyclable' => 'required|boolean',
-'dangereux' => 'required|boolean',
-]);
+        return redirect()->route('backOffice.listTypeDechet')->with('success', 'Waste type added successfully.');
+    }
 
-$typeDechet = TypeDechet::findOrFail($id);
-$typeDechet->update([
-'nom' => $request->nom,
-'description' => $request->description,
-'recyclable' => $request->recyclable,
-'dangereux' => $request->dangereux,
-]);
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
-return redirect()->route('backOffice.listTypeDechet')->with('success', 'Type de déchet mis à jour avec succès.');
-}
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $typeDechet = TypeDechet::findOrFail($id);
+        return view('backOffice.listTypeDechet', compact('typeDechet'));
+    }
 
-/**
-* Supprimer un type de déchet de la base de données.
-*/
-public function destroy($id)
-{
-$typeDechet = TypeDechet::findOrFail($id);
-$typeDechet->delete();
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'recyclable' => 'required|string',
+            'dangereux' => 'required|string',
+        ]);
 
-return redirect()->route('backOffice.listTypeDechet')->with('success', 'Type de déchet supprimé avec succès.');
-}
+        $typeDechet = TypeDechet::findOrFail($id);
+        $typeDechet->update([
+            'nom' => $request->nom,
+            'description' => $request->description,
+            'recyclable' => $request->recyclable,
+            'dangereux' => $request->dangereux,
+        ]);
+
+        return redirect()->route('backOffice.listTypeDechet')->with('success', 'Waste type updated successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $typeDechet = TypeDechet::findOrFail($id);
+        $typeDechet->delete();
+
+        return redirect()->route('backOffice.listTypeDechet')->with('success', 'Waste type successfully deleted.');
+    }
 }

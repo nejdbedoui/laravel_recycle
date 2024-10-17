@@ -53,7 +53,7 @@ class SocieteController extends Controller
 
         $societe->save();
 
-        return redirect()->route('frontOffice.societeProfile.edit')->with('status', 'profile-updated');
+        return redirect()->route('frontOffice.societeProfile.edit')->with('success', 'Profile Updated Successfully');
     }
 
 

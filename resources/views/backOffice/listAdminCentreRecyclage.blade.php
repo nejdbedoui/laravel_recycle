@@ -1,7 +1,5 @@
 @extends('backOffice.adminDashboard')
 
-@section('title', 'EcoCycle - Recycling Center Admin List')
-
 @section('dashboard-content')
 
     <div class="page-content-wrapper p-xxl-4">
@@ -15,18 +13,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Search and select START -->
-        <div class="row g-3 align-items-center justify-content-between mb-5">
-            <!-- Search -->
-            <div class="col-md-12">
-                <form class="rounded position-relative">
-                    <input class="form-control pe-5" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn border-0 px-3 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6"></i></button>
-                </form>
-            </div>
-        </div>
-        <!-- Search and select END -->
 
         <!-- agent list START -->
         <div class="row g-4">

@@ -1,7 +1,5 @@
 @extends('index')
 
-@section('title', 'EcoCycle - Company Dashboard')
-
 @section('content')
 
     <section class="dashboard">
@@ -169,34 +167,15 @@
                                             <!-- Sidebar menu item START -->
                                             <ul class="nav nav-pills-primary-soft flex-column">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" href="account-profile.html"><i
-                                                            class="bi bi-person fa-fw me-2"></i>My Profile</a>
+                                                    <a class="nav-link" href="{{ url ('/societe/listCentreRecyclage') }}"><i
+                                                            class="bi bi-buildings fa-fw me-2"></i>Recycling Center List</a>
                                                 </li>
+
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="account-bookings.html"><i
-                                                            class="bi bi-ticket-perforated fa-fw me-2"></i>My
-                                                        Bookings</a>
+                                                    <a class="nav-link" href="{{ url ('/societe/listDemandeMatierePremiere') }}"><i
+                                                            class="bi bi-database fa-fw me-2"></i>Raw Material Demand List</a>
                                                 </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="account-travelers.html"><i
-                                                            class="bi bi-people fa-fw me-2"></i>Travelers</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="account-payment-details.html"><i
-                                                            class="bi bi-wallet fa-fw me-2"></i>Payment Details</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="account-wishlist.html"><i
-                                                            class="bi bi-heart fa-fw me-2"></i>Wishlist</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="account-settings.html"><i
-                                                            class="bi bi-gear fa-fw me-2"></i>Settings</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="account-delete.html"><i
-                                                            class="bi bi-trash fa-fw me-2"></i>Delete Profile</a>
-                                                </li>
+
                                                 <li class="nav-item">
                                                     <form method="POST" action="{{ route('logout') }}">
                                                         @csrf

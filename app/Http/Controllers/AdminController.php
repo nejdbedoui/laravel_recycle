@@ -7,6 +7,7 @@ use App\Models\AdminCentreCollecte;
 use App\Models\AdminCentreRecyclage;
 use App\Models\Chauffeur;
 use App\Models\Societe;
+use App\Models\TypeDechet;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -70,7 +71,7 @@ class AdminController extends Controller
 
         $user->save();
 
-        return redirect()->route('backOffice.adminProfile.edit')->with('status', 'profile-updated');
+        return redirect()->route('backOffice.adminProfile.edit')->with('success', 'Profile Updated Successfully');
     }
 
 
@@ -129,7 +130,7 @@ class AdminController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('backOffice.listChauffeur')->with('status', 'Driver added successfully');
+        return redirect()->route('backOffice.listChauffeur')->with('success', 'Driver added successfully');
     }
 
     public function listChauffeur()
@@ -141,7 +142,8 @@ class AdminController extends Controller
     public function detailChauffeur($id)
     {
         $chauffeur = Chauffeur::find($id);
-        return view('backOffice.detailChauffeur', compact('chauffeur'));
+        $zonesCollectes = $chauffeur->zonesCollecte;
+        return view('backOffice.detailChauffeur', compact('chauffeur', 'zonesCollectes'));
     }
 
     /**
@@ -166,7 +168,7 @@ class AdminController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('backOffice.listAdminCentreCollecte')->with('status', 'Collection Center Admin added successfully');
+        return redirect()->route('backOffice.listAdminCentreCollecte')->with('success', 'Collection Center Admin added successfully');
     }
 
     public function listAdminCentreCollecte()
@@ -178,7 +180,16 @@ class AdminController extends Controller
     public function detailAdminCentreCollecte($id)
     {
         $adminCentreCollecte = AdminCentreCollecte::find($id);
-        return view('backOffice.detailAdminCentreCollecte', compact('adminCentreCollecte'));
+
+        if ($adminCentreCollecte && $adminCentreCollecte->centreCollecte) {
+            $centreCollecte = $adminCentreCollecte->centreCollecte;
+            $dechets = $centreCollecte->dechets;
+        } else {
+            $centreCollecte = null;
+            $dechets = collect();
+        }
+
+        return view('backOffice.detailAdminCentreCollecte', compact('adminCentreCollecte', 'centreCollecte', 'dechets'));
     }
 
     /**
@@ -203,7 +214,7 @@ class AdminController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('backOffice.listAdminCentreRecyclage')->with('status', 'Recycling Center Admin added successfully');
+        return redirect()->route('backOffice.listAdminCentreRecyclage')->with('success', 'Recycling Center Admin added successfully');
     }
 
     public function listAdminCentreRecyclage()
@@ -215,8 +226,20 @@ class AdminController extends Controller
     public function detailAdminCentreRecyclage($id)
     {
         $adminCentreRecyclage = AdminCentreRecyclage::find($id);
-        return view('backOffice.detailAdminCentreRecyclage', compact('adminCentreRecyclage'));
+
+        if ($adminCentreRecyclage && $adminCentreRecyclage->centreRecyclage) {
+            $centreRecyclage = $adminCentreRecyclage->centreRecyclage;
+            $matierePremieres = $centreRecyclage->matieresPremieres;
+            $typeRecyclages = $centreRecyclage->typesRecyclage;
+        } else {
+            $centreRecyclage = null;
+            $matierePremieres = collect();
+            $typeRecyclages = collect();
+        }
+
+        return view('backOffice.detailAdminCentreRecyclage', compact('adminCentreRecyclage', 'centreRecyclage', 'matierePremieres', 'typeRecyclages'));
     }
+
 
     public function enableUser($id)
     {
@@ -235,119 +258,4 @@ class AdminController extends Controller
 
         return back()->with('success', 'The user has been successfully deactivated.');
     }
-/**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function addZone(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'adresse' => ['required', 'string', 'max:255'],
-        ]);
-
-        $zone = ZoneCollecte::create([
-            'nom' => $request->name,
-            'adresse' => $request->adresse,
-        ]);
-
-        return redirect()->route('backOffice.listZone')->with('status', 'Zone added successfully');
-    }
-
-
-
-    public function listZone(Request $request)
-{
-
-    $search = $request->input('name'); 
-    
-    if ($search) {
-        $zones = ZoneCollecte::where('nom', 'like', '%' . $search . '%')->get();
-    } else {
-        $zones = ZoneCollecte::all();
-    }
-
-    return view('backOffice.listZone', compact('zones'));
-}
-
-
-
-    public function detailZone($id)
-    {
-        $zone = ZoneCollecte::find($id);
-        return view('backOffice.detailZone', compact('zone'));
-    }
-
-
-
-    public function deletezone($id)
-    {
-        $zone = ZoneCollecte::findOrFail($id);
-        $zone->delete();
-
-        return back()->with('success', 'Zone Deleted.');
-    }
-
-     /**
-
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function addCentreCollecte(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'adresse' => ['required', 'string', 'max:255'],
-            'capacite' => ['required', 'int', 'min:10'],
-            'zone_id' => ['required', 'exists:zone_collectes,id'] 
-        ]);
-    
-
-        $centreCollecte = CentreCollecte::create([
-            'nom' => $request->name,
-            'adresse' => $request->adresse,
-            'capacite' => $request->capacite,
-            'zone_collecte_id' => $request->zone_id // Save the zone ID
-        ]);
-
-        return redirect()->route('backOffice.listCentreCollecte')->with('status', 'centre de Collecte added successfully');
-    }
-
-
-
-    public function listCentreCollecte(Request $request)
-
-{
-
-    $search = $request->input('name'); 
-    
-    if ($search) {
-        $centresCollectes = CentreCollecte::where('nom', 'like', '%' . $search . '%')->get();
-    } else {
-        $centresCollectes = CentreCollecte::all();
-    }
-    $zones = ZoneCollecte::all();
-    return view('backOffice.listCentreCollecte', compact('centresCollectes','zones'));
-}
-
-
-
-    public function detailCentreCollecte($id)
-    {
-        $centreCollecte = CentreCollecte::find($id);
-        return view('backOffice.detailCentreCollecte', compact('centreCollecte'));
-    }
-
-
-
-    public function deleteCentreCollecte($id)
-    {
-        $centreCollecte = CentreCollecte::findOrFail($id);
-        $centreCollecte->delete();
-
-        return back()->with('success', 'centre de Collecte Deleted.');
-    }
-
 }

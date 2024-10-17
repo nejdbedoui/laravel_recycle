@@ -1,7 +1,5 @@
 @extends('backOffice.adminDashboard')
 
-@section('title', 'EcoCycle - Company Detail')
-
 @section('dashboard-content')
 
     <div class="page-content-wrapper p-xxl-4">
@@ -45,7 +43,7 @@
                             <div class="icon-md bg-mode h6 mb-0 rounded-circle flex-shrink-0"><i class="bi bi-geo-alt-fill"></i></div>
                             <div class="ms-2">
                                 <small>Address</small>
-                                <h6 class="fw-normal small mb-0">{{ $societe->adresse }}</h6>
+                                <h6 class="fw-normal small mb-0"><a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($societe->adresse) }}" target="_blank">{{ $societe->adresse }}</a></h6>
                             </div>
                         </div>
 

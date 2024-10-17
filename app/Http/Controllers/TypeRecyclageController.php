@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\AdminCentreRecyclage;
 use App\Models\CentreRecyclage;
 use App\Models\TypeRecyclage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TypeRecyclageController extends Controller
 {
@@ -13,86 +14,109 @@ class TypeRecyclageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /**
-     * Afficher la liste de tous les types de recyclage.
-     */
     public function index()
     {
-        $typesRecyclage = TypeRecyclage::with('centreRecyclage')->get();
-                return view('backOffice.indextypesrecyclage', compact('typesRecyclage')); // Passe les types à la vue
+        //
     }
 
     /**
-     * Afficher le formulaire pour créer un nouveau type de recyclage.
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        $centresRecyclage = CentreRecyclage::all(); // Récupérer tous les centres de recyclage
-        return view('backOffice.createtypesrecyclage', compact('centresRecyclage')); // Passer les centres à la vue
+        return view('frontOffice.adminCentreRecyclage.detailCentreRecyclage');
     }
-    
 
     /**
-     * Stocker un nouveau type de recyclage dans la base de données.
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
-            'centre_recyclage_id' => 'required|exists:centre_recyclages,id',
+            'description' => 'nullable|string',
         ]);
-    
-        // Vérifiez les données validées
-       // dd($validated); // Vous devriez voir 'centre_recyclage_id' ici
-    
-        // Créez le nouveau type de recyclage
-        TypeRecyclage::create($validated);
-    
-        return redirect()->route('backOffice.indextypesrecyclage')->with('success', 'Type de recyclage créé avec succès');
+
+        $adminCentreRecyclage = AdminCentreRecyclage::findOrFail(Auth::user()->id);
+        $centreRecyclage = $adminCentreRecyclage->centreRecyclage;
+
+        TypeRecyclage::create([
+            'nom' => $validated['nom'],
+            'description' => $validated['description'],
+            'centre_recyclage_id' => $centreRecyclage->id,
+        ]);
+
+        return redirect()->route('frontOffice.adminCentreRecyclage.detailCentreRecyclage')->with('success', 'Recycling Type created successfully.');
     }
-    
-    
 
     /**
-     * Afficher un type de recyclage spécifique.
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(TypeRecyclage $typeRecyclage)
+    public function show($id)
     {
-        return view('backOffice.showtypesrecyclage', compact('typeRecyclage'));
+        //
     }
 
-
     /**
-     * Afficher le formulaire d'édition d'un type de recyclage.
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function edit(TypeRecyclage $typeRecyclage)
+    public function edit($id)
     {
-        $centresRecyclage = CentreRecyclage::all();
-        return view('backOffice.edittypesrecyclage', compact('typeRecyclage', 'centresRecyclage'));
+        $typeRecyclage = TypeRecyclage::findOrFail($id);
+        return view('frontOffice.adminCentreRecyclage.detailCentreRecyclage', compact('typeRecyclage'));
     }
 
     /**
-     * Mettre à jour un type de recyclage existant dans la base de données.
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TypeRecyclage $typeRecyclage)
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
-            'centre_recyclage_id' => 'required|exists:centre_recyclages,id',
+            'description' => 'nullable|string',
         ]);
 
-        $typeRecyclage->update($validated);
-        return redirect()->route('backOffice.indextypesrecyclage')->with('success', 'Type de recyclage mis à jour avec succès');
+        $adminCentreRecyclage = AdminCentreRecyclage::findOrFail(Auth::user()->id);
+        $centreRecyclage = $adminCentreRecyclage->centreRecyclage;
+
+        $typeRecyclage = TypeRecyclage::findOrFail($id);
+
+        $typeRecyclage->update([
+            'nom' => $validated['nom'],
+            'description' => $validated['description'],
+            'centre_recyclage_id' => $centreRecyclage->id,
+        ]);
+
+        return redirect()->route('frontOffice.adminCentreRecyclage.detailCentreRecyclage')->with('success', 'Recycling Type updated successfully.');
     }
 
     /**
-     * Supprimer un type de recyclage de la base de données.
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(TypeRecyclage $typeRecyclage)
+    public function destroy($id)
     {
+        $typeRecyclage = TypeRecyclage::findOrFail($id);
         $typeRecyclage->delete();
-        return redirect()->route('backOffice.indextypesrecyclage')->with('success', 'Type de recyclage supprimé avec succès');
+
+        return redirect()->route('frontOffice.adminCentreRecyclage.detailCentreRecyclage')->with('success', 'Recycling Type successfully deleted.');
     }
 }
+

@@ -9,7 +9,7 @@ class DemandeDechet extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['etat', 'quantite'];
+    protected $fillable = ['etat', 'quantite', 'centre_recyclage_id', 'dechet_id'];
 
     protected $table = 'demandes_dechets';
 
@@ -22,7 +22,7 @@ class DemandeDechet extends Model
     // Relation One-to-One inverse avec Deplacement
     public function deplacement()
     {
-        return $this->belongsTo(Deplacement::class);
+        return $this->hasOne(Deplacement::class);
     }
 
     // Relation Many-to-One avec Dechet

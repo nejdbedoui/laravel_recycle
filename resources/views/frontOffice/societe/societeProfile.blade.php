@@ -1,7 +1,5 @@
 @extends('frontOffice.societe.societeDashboard')
 
-@section('title', 'EcoCycle - Company Profile')
-
 @section('dashboard-content')
     <div class="col-lg-8 col-xl-9">
         <div class="vstack gap-4">

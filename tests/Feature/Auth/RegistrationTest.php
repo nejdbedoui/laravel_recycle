@@ -1,6 +1,6 @@
 <?php
 
-// use App\Providers\RouteServiceProvider;
+use App\Providers\RouteServiceProvider;
 
 // test('registration screen can be rendered', function () {
 //     $response = $this->get('/register');

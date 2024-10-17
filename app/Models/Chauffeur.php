@@ -33,4 +33,29 @@ class Chauffeur extends User
     {
         return $this->belongsToMany(ZoneCollecte::class, 'chauffeur_zone_collecte');
     }
+
+
+
+    // Définir la méthode pour récupérer les chauffeurs disponibles pour une date spécifique
+    public static function getAvailableDrivers($date)
+    {
+        $chauffeursIndisponibles = Deplacement::where('date', $date)
+            ->pluck('chauffeur_id');
+
+        // Retourner les chauffeurs qui ne sont pas déjà assignés à cette date
+        return self::whereNotIn('id', $chauffeursIndisponibles)->get();
+    }
+
+    public static function getAvailableDriversForUpdate($date, $deplacementId)
+    {
+        // Récupérer les chauffeurs assignés à un déplacement à la date donnée, excluant le déplacement en cours
+        $chauffeursIndisponibles = Deplacement::where('date', $date)
+            ->where('id', '!=', $deplacementId) // Exclure le déplacement actuel
+            ->pluck('chauffeur_id');
+
+        // Retourner les chauffeurs qui ne sont pas déjà assignés à cette date
+        return Chauffeur::whereNotIn('id', $chauffeursIndisponibles)->get();
+    }
+
+
 }

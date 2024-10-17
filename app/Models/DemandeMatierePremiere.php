@@ -9,7 +9,7 @@ class DemandeMatierePremiere extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['etat', 'quantite'];
+    protected $fillable = ['etat', 'quantite', 'societe_id', 'matiere_premiere_id'];
 
     protected $table = 'demande_matiere_premieres';
 

@@ -9,7 +9,7 @@ class CentreRecyclage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'adresse', 'capacite'];
+    protected $fillable = ['nom', 'adresse', 'capacite', 'admin_centre_recyclage_id'];
 
     // Relation Many-to-One avec AdminCentreRecyclage
     public function admin()

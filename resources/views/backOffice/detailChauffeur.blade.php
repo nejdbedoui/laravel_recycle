@@ -1,7 +1,5 @@
 @extends('backOffice.adminDashboard')
 
-@section('title', 'EcoCycle - Driver Detail')
-
 @section('dashboard-content')
 
     <div class="page-content-wrapper p-xxl-4">
@@ -95,6 +93,54 @@
                 <!-- Personal info END -->
             </div>
         </div> <!-- Row END -->
+
+        <div class="row g-4 mb-5">
+            <!-- Personal info START -->
+            <div class="card shadow">
+                <!-- Card header -->
+                <div class="card-header border-bottom">
+                    <h5 class="mb-0">Collection Areas List</h5>
+                </div>
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="card shadow mt-5">
+
+                            <!-- Card body START -->
+                            <div class="card-body">
+                                <!-- Table head -->
+                                <div class="bg-light rounded p-3 d-none d-sm-block">
+                                    <div class="row row-cols-7 g-4">
+                                        <div class="col"><h6 class="mb-0">Name</h6></div>
+                                        <div class="col"><h6 class="mb-0">Address</h6></div>
+                                    </div>
+                                </div>
+
+                                <!-- Table data -->
+                                @foreach ($zonesCollectes as $zoneCollecte)
+                                    <div class="row row-cols-xl-7 g-4 align-items-sm-center border-bottom px-2 py-4">
+                                        <!-- Data item -->
+                                        <div class="col">
+                                            <small class="d-block d-sm-none">Name:</small>
+                                            <h6 class="fw-light mb-0">{{ $zoneCollecte->nom }}</h6>
+                                        </div>
+
+                                        <!-- Data item -->
+                                        <div class="col">
+                                            <small class="d-block d-sm-none">Address:</small>
+                                            <h6 class="mb-0 fw-normal">{{ $zoneCollecte->adresse }}</h6>
+                                        </div>
+
+                                    </div>
+                                @endforeach
+                            </div>
+                            <!-- Card body END -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Personal info END -->
+        </div>
     </div>
 
 @endsection
