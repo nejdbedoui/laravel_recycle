@@ -22,6 +22,7 @@
                     <!-- Sidebar menu START -->
                     <ul class="navbar-nav flex-column" id="navbar-sidebar">
 
+
                         <!-- Menu item -->
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="collapse" href="#collapsebooking" role="button"
@@ -41,6 +42,7 @@
                         <!-- Menu item -->
                         <li class="nav-item"><a class="nav-link" href="{{url('/admin/listEvenementCommunautaire')}}">Community Events List</a></li>
 
+
                         <!-- Menu item -->
                         <li class="nav-item"><a class="nav-link" href="{{url('/admin/listZoneCollecte')}}">Collection Areas List</a></li>
 
@@ -54,6 +56,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{url('/admin/listTrips')}}">Trips List</a></li>
 
                     </ul>
+
                     <!-- Sidebar menu end -->
 
                     <!-- Sidebar footer START -->

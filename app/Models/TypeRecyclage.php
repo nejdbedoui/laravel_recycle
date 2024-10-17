@@ -11,7 +11,13 @@ class TypeRecyclage extends Model
 
     protected $table = 'type_recyclages';
 
+<<<<<<< HEAD
     protected $fillable = ['nom', 'description', 'centre_recyclage_id'];
+=======
+    //protected $fillable = ['nom', 'description'];
+    protected $fillable = ['nom', 'description', 'centre_recyclage_id'];
+
+>>>>>>> main
 
     // Relation Many-to-One avec CentreRecyclage
     public function centreRecyclage()

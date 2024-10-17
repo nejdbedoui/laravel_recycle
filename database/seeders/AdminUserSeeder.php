@@ -15,6 +15,7 @@ class AdminUserSeeder extends Seeder
      */
     public function run()
     {
+        // Create Admin EcoCycle if it doesn't exist
         $adminExists = User::where('email', 'admin@ecocycle.com')->exists();
 
         if (!$adminExists) {
@@ -24,7 +25,23 @@ class AdminUserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password' => bcrypt('adminecocycle'),
                 'role' => 'admin',
-                'image' => 'photoProfileAdmin.png',
+                'image' => 'photoProfile.png',
+            ]);
+        }
+
+        // Create Admin Centre Recyclage if it doesn't exist
+        $adminCentreRecyclageExists = User::where('email', 'adminCentreRecyclage@ecocycle.com')->exists();
+
+        if (!$adminCentreRecyclageExists) {
+            User::create([
+                'name' => 'Admin Centre Recyclage',
+                'email' => 'adminCentreRecyclage@ecocycle.com',
+                'email_verified_at' => now(),
+                'password' => bcrypt('admincentrecycle'),
+                'role' => 'adminCentreRecyclage',
+                'image' => 'photoProfile.png',
+                'telephone' => '0123456789',
+                'matricule' => '123456789',
             ]);
         }
     }

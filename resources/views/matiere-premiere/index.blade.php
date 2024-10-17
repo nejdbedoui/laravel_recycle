@@ -1,8 +1,9 @@
 @extends('index')
+@section('title', 'EcoCycle - Matières Premières')
+
 
 @section('content')
-
-    <section>
+<section>
     @yield('content')
 
         <!-- Header START -->
@@ -138,9 +139,6 @@
                                 <img class="avatar-img rounded-circle" src="{{ asset('storage/' . Auth::user()->image) }}" alt="">
                             </div>
                             <h4 class="mb-2 mb-sm-0 ms-sm-3"><span class="fw-light">Hi</span> {{ Auth::user()->name }}</h4>
-                            @if(is_null($centreRecyclage))
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-sm btn-primary-soft mb-0 ms-auto flex-shrink-0"><i class="bi bi-plus-lg fa-fw me-2"></i>Add Recyclage Center</a>
-                            @endif
                         </div>
                         <!-- Avatar and info START -->
 
@@ -164,40 +162,38 @@
                                 <div class="navbar navbar-expand-xl">
                                     <ul class="navbar-nav navbar-offcanvas-menu">
 
-                                        @if(!is_null($centreRecyclage))
-                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/detailCentreRecyclage') }}"><i class="bi bi-house-door fa-fw me-1"></i>Recycling Center</a></li>
+                                        <li class="nav-item"><a class="nav-link active" href="agent-dashboard.html"><i
+                                                    class="bi bi-house-door fa-fw me-1"></i>Dashboard</a></li>
 
-<<<<<<< HEAD
-                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/listDemandeMatierePremiere') }}"><i class="bi bi-database fa-fw me-1"></i>Raw Material Demand List</a></li>
-
-                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/listCentreCollecte') }}"><i class="bi bi-buildings fa-fw me-1"></i>Collection Center List</a></li>
-=======
                                         <li class="nav-item"><a class="nav-link" href="{{url('/matiere-premiere')}}"><i
                                                     class="bi bi-journals fa-fw me-1"></i>List of raw material</a></li>
 
-                                                    <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="recyclageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-bookmark-heart fa-fw me-1"></i> Recyclage
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="recyclageDropdown">
-        <li>
-        <a class="dropdown-item" href="{{ route('backOffice.indexcentrerecyclage') }}">Centre Recyclage</a>
-        </li>
-        <li>
-        <a class="dropdown-item" href="{{ route('backOffice.indextypesrecyclage') }}">Type Recyclage</a>
+                                        <li class="nav-item"><a class="nav-link" href="agent-bookings.html"><i
+                                                    class="bi bi-bookmark-heart fa-fw me-1"></i>Bookings</a></li>
 
-        </li>
-    </ul>
-</li>
+                                        <li class="nav-item"><a class="nav-link" href="agent-activities.html"><i
+                                                    class="bi bi-bell fa-fw me-1"></i>Activities</a></li>
 
+                                        <li class="nav-item"><a class="nav-link" href="agent-earnings.html"><i
+                                                    class="bi bi-graph-up-arrow fa-fw me-1"></i>Earnings</a></li>
 
->>>>>>> main
+                                        <li class="nav-item"><a class="nav-link" href="agent-reviews.html"><i
+                                                    class="bi bi-star fa-fw me-1"></i>Reviews</a></li>
 
-                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/listDemandeDechet') }}"><i class="bi bi-trash fa-fw me-1"></i>Waste Demand List</a></li>
+                                        <li><a class="nav-link" href="agent-settings.html"><i
+                                                    class="bi bi-gear fa-fw me-1"></i>Settings</a></li>
 
-                                            <li class="nav-item"><a class="nav-link" href="{{ url ('/adminCentreRecyclage/listTrips') }}"><i class="bi bi-truck fa-fw me-1"></i>Trips List</a></li>
-                                        @endif
-
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="dropdoanMenu"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="bi bi-list-ul fa-fw me-1"></i>Dropdown
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdoanMenu">
+                                                <!-- Dropdown menu -->
+                                                <li><a class="dropdown-item" href="#">Item 1</a></li>
+                                                <li><a class="dropdown-item" href="#">Item 2</a></li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -206,103 +202,185 @@
                     </div>
                 </div>
             </section>
-            <!-- =======================
-            Menu item END -->
 
-            <!-- =======================
-            Content START -->
-            @yield('dashboard-content')
-            
-            <!-- =======================
-        Content END -->
+  <section class="pt-0">
+	<div class="container vstack gap-4">
+		<!-- Title START -->
+		<div class="row">
+			<div class="col-12">
+				<h1 class="fs-4 mb-0"><i class="bi bi-journals fa-fw me-1"></i>Matières Premières</h1>
+			</div>
+		</div>
 
-        </main>
-        <!-- **************** MAIN CONTENT END **************** -->
+	<!-- Matières Premières table START -->
+    <div class="row">
+			<div class="col-12">
+				<div class="card border">
+					<!-- Card header START -->
+					<div class="card-header border-bottom">
+						<h5 class="card-header-title">Liste des matières Premières</h5>
+					</div>
+					<!-- Card header END -->
+					<div class="card-body">
 
-        <!-- =======================
-        Footer START -->
-        <footer class="bg-dark p-3">
-            <div class="container">
-                <div class="row align-items-center">
-
-                    <!-- Widget -->
-                    <div class="col-md-3">
-                        <div class="text-center text-md-start mb-3 mb-md-0">
-                            <a href="{{ url('/') }}"> <img class="h-50px"
-                                                           src="{{ Vite::asset('resources/assets/images/logo.png') }}"
-                                                           alt="logo">
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Widget -->
-                    <div class="col-md-5">
-                        <div class="text-body-secondary text-primary-hover"> Copyrights ©2024 MASTERMINDS. Build by <a
-                                href="" class="text-body-secondary">ESPRIT</a>.
-                        </div>
-                    </div>
-
-                    <!-- Widget -->
-                    <div class="col-md-4">
-                        <ul class="list-inline mb-0 text-center text-md-end">
-                            <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-facebook"></i></a>
-                            </li>
-                            <li class="list-inline-item ms-2"><a href=""><i
-                                        class="text-white fab fa-instagram"></i></a></li>
-                            <li class="list-inline-item ms-2"><a href=""><i
-                                        class="text-white fab fa-linkedin-in"></i></a>
-                            </li>
-                            <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-twitter"></i></a>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="pull-right mb-2">
+                <!-- Button to trigger modal -->
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMatierePremiereModal">
+                    <i class="fas fa-plus"></i> Ajouter
+                </button>
+            </div>    
+            <form method="GET" action="{{ route('matiere-premiere.index') }}" class="mb-3">
+            <div class="input-group mb-3">
+        <input type="text" id="search" class="form-control" placeholder="Rechercher par nom ou quantité" value="{{ request('search') }}">
+    </div>
+</form>
+						
+                <!-- Success message -->
+                @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                                <p>{{ $message }}</p>
                 </div>
+                @endif
+
+    <!-- Table to display data -->
+  <!-- Matières Premières list START -->
+  <div class="table-responsive border-0">
+  @if ($matieresPremieres->count())
+  <table class="table align-middle p-4 mb-0 table-hover table-shrink  text-center">
+            <!-- Table head -->
+               
+            <thead class="table-light">
+               <tr>
+                   <th scope="col" class="border-0">S.No</th>
+                   <th scope="col" class="border-0">Nom</th>
+                   <th scope="col" class="border-0">Quantité</th>
+                   <th scope="col" class="border-0 rounded-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($matieresPremieres as $matierePremiere)
+                <tr>
+                    <td>{{ $matierePremiere->id }}</td>
+                    <td>{{ $matierePremiere->nom }}</td>
+                    <td>{{ $matierePremiere->quantite }}</td>
+                    <td class="action-buttons">
+                        <a class="btn btn-outline-info btn-sm" href="{{ route('matiere-premiere.show', $matierePremiere->id) }}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ route('matiere-premiere.edit', $matierePremiere->id) }}">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ route('matiere-premiere.destroy', $matierePremiere->id) }}" method="POST" style="display:inline;">
+                          @csrf
+                          @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette matière première ?')">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="my-4">
+    {!! $matieresPremieres->links('pagination::bootstrap-5') !!}
+</div>
+
+<style>
+    .pagination .page-item {
+        margin: 0 5px; /* Adjust the value as needed for your desired gap */
+    }
+</style>
+
+@endif
+
+</div>
+
+<!-- Modal for adding a new Matière Première -->
+<div class="modal fade" id="addMatierePremiereModal" tabindex="-1" aria-labelledby="addMatierePremiereLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMatierePremiereLabel">Ajouter Matière Première</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </footer>
-        <!-- =======================
-        Footer END -->
+            <div class="modal-body">
+                <form action="{{ route('matiere-premiere.store') }}" method="POST">
+                    @csrf
+                    <!-- Nom Field -->
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom</label>
+                        <input type="text" class="form-control" id="nom" name="nom" required>
+                    </div>
 
-    </section>
+                    <!-- Quantité Field -->
+                    <div class="mb-3">
+                        <label for="quantite" class="form-label">Quantité</label>
+                        <input type="number" class="form-control" id="quantite" name="quantite" required>
+                    </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Recycling Center</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form class="text-start" method="POST"
-                          action="{{ route('frontOffice.adminCentreRecyclage.storeCentreRecyclage') }}">
-                        @csrf
+                    <div class="form-group">
+                        <label for="centre_recyclage_id">Centre de Recyclage</label>
+                        <select name="centre_recyclage_id" id="centre_recyclage_id" class="form-control" required>
+                            @foreach($centres as $centre)
+                            <option value="{{ $centre->id }}">{{ $centre->nom }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Enter name</label>
-                            <x-text-input class="form-control" type="text" name="nom" required/>
-                            <x-input-error :messages="$errors->get('nom')" class="mt-2"/>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Enter Address</label>
-                            <x-text-input class="form-control" type="text" name="adresse" required/>
-                            <x-input-error :messages="$errors->get('adresse')" class="mt-2"/>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Enter Capacity (Kg)</label>
-                            <x-text-input class="form-control" type="number" name="capacite" required/>
-                            <x-input-error :messages="$errors->get('capacite')" class="mt-2"/>
-                        </div>
-
-                        <div>
-                            <button type="submit" class="btn btn-primary w-100 mb-0">Save</button>
-                        </div>
-                    </form>
-                </div>
+                    <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+</main>
+<!-- Footer START -->
+<footer class="bg-dark p-3">
+    <div class="container">
+        <div class="row align-items-center">
 
+            <!-- Widget -->
+            <div class="col-md-3">
+                <div class="text-center text-md-start mb-3 mb-md-0">
+                    <a href="{{ url('/') }}">
+                        <img class="h-50px" src="{{ Vite::asset('resources/assets/images/logo.png') }}" alt="logo">
+                    </a>
+                </div>
+            </div>
 
+            <!-- Widget -->
+            <div class="col-md-5">
+                <div class="text-body-secondary text-primary-hover"> Copyrights ©2024 MASTERMINDS. Build by <a href="" class="text-body-secondary">ESPRIT</a>.
+                </div>
+            </div>
+
+            <!-- Widget -->
+            <div class="col-md-4">
+                <ul class="list-inline mb-0 text-center text-md-end">
+                    <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-facebook"></i></a></li>
+                    <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-instagram"></i></a></li>
+                    <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-linkedin-in"></i></a></li>
+                    <li class="list-inline-item ms-2"><a href=""><i class="text-white fab fa-twitter"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- =======================
+Footer END -->
+<script>
+    // Listen for input changes
+    document.getElementById('search').addEventListener('input', function() {
+        const searchQuery = this.value;
+
+        // Create a new URL with the search parameter
+        const url = new URL(window.location.href);
+        url.searchParams.set('search', searchQuery);
+
+        // Redirect to the new URL
+        window.location.href = url.toString();
+    });
+</script>
 @endsection
