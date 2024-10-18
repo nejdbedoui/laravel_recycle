@@ -21,7 +21,7 @@ COPY .env /app/.env
 RUN composer install
 
 # Command to run your application
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD npm run start
 
 # Expose the port for the application
 EXPOSE 8000
