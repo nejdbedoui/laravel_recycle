@@ -15,6 +15,8 @@ RUN docker-php-ext-install pdo_mysql mbstring
 WORKDIR /app
 COPY . /app
 
+COPY .env /app/.env
+
 # Install PHP dependencies via Composer
 RUN composer install
 
