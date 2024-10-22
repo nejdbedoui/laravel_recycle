@@ -25,6 +25,8 @@ RUN rm -rf public/storage || true
 
 RUN php artisan storage:link
 
+RUN php artisan migrate
+
 RUN php artisan db:seed --class=AdminUserSeeder
 
 CMD npm run start
