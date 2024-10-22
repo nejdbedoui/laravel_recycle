@@ -28,6 +28,10 @@ RUN composer install
 # Install npm dependencies
 RUN npm install
 
+RUN rm public/storage
+
+RUN php artisan storage:link
+
 # Command to run your application
 CMD npm run start
 
